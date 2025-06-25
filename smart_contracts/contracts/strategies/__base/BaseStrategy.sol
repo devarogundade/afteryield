@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.28;
 
-import {Consts} from "../libs/Consts.sol";
-import {IBaseStrategy} from "../interfaces/IBaseStrategy.sol";
-import {IFeeCollector} from "../interfaces/IFeeCollector.sol";
+import {Consts} from "../../libs/Consts.sol";
+import {IBaseStrategy} from "../../interfaces/IBaseStrategy.sol";
+import {IFeeCollector} from "../../interfaces/IFeeCollector.sol";
 import {OwnableUpgradeable} from "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
 import {PausableUpgradeable} from "@openzeppelin/contracts-upgradeable/utils/PausableUpgradeable.sol";
 

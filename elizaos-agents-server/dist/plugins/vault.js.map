@@ -1,0 +1,1 @@
+{"version":3,"file":"vault.js","sourceRoot":"","sources":["../../src/plugins/vault.ts"],"names":[],"mappings":";;;AACA,0EAAsE;AACtE,4EAAsE;AACtE,8CAAoD;AACpD,6CAAkD;AAErC,QAAA,WAAW,GAAW;IACjC,IAAI,EAAE,cAAc;IACpB,WAAW,EAAE;;;GAGZ;IACD,SAAS,EAAE,CAAC,qBAAa,CAAC;IAC1B,QAAQ,EAAE,CAAC,oBAAY,CAAC;IACxB,OAAO,EAAE,CAAC,yCAAkB,EAAE,yCAAiB,CAAC;CACjD,CAAC"}

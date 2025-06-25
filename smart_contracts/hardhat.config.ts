@@ -2,7 +2,7 @@ import { vars } from "hardhat/config";
 import "@nomicfoundation/hardhat-toolbox-viem";
 
 const MNEMONIC = vars.get("MNEMONIC");
-const AVALANCHE_API_KEY = vars.get("AVALANCHE_API_KEY");
+// const AVALANCHE_API_KEY = vars.get("AVALANCHE_API_KEY");
 
 module.exports = {
   mocha: {
@@ -34,9 +34,9 @@ module.exports = {
     },
   },
   etherscan: {
-    apiKey: {
-      avalancheFuji: AVALANCHE_API_KEY,
-    },
+    // apiKey: {
+    //   avalancheFuji: AVALANCHE_API_KEY,
+    // },
     customChains: [
       {
         network: "avalancheFuji",

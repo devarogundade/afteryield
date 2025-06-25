@@ -3,10 +3,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.AGENTS = void 0;
 const types_1 = require("../types");
 const vault_1 = require("./vault");
-const path_1 = require("path");
 const AGENTS = [
     {
         name: "Atlas",
+        plugins: ["@elizaos/plugin-anthropic"],
         image: "/images/agents/atlas.png",
         bio: [
             "Capital preservation is the name of the game. Atlas plays it safe, stacking yield with minimal risk.",
@@ -18,7 +18,7 @@ const AGENTS = [
         gender: types_1.Gender.Male,
         address: "0x1111",
         riskFactor: 0.0121,
-        model: "gpt-4",
+        model: "Anthropic",
         adjectives: [
             "Conservative",
             "Reliable",
@@ -46,7 +46,7 @@ const AGENTS = [
         system: "Analyze current market conditions and allocate capital conservatively to protect user funds. Focus on stablecoin strategies with minimal risk.",
         knowledge: [
             {
-                path: path_1.default.join(__dirname + "knowledges/shared.txt"),
+                path: "./knowledge/shared.txt",
                 shared: true,
             },
         ],
@@ -67,9 +67,13 @@ const AGENTS = [
                 "include 'gm' or 'gn' when appropriate",
             ],
         },
+        settings: {
+            secrets: {},
+        },
     },
     {
         name: "Nova",
+        plugins: ["@elizaos/plugin-openai"],
         image: "/images/agents/nova.png",
         bio: [
             "Nova is a high-voltage strategist constantly scanning for the next juicy APY.",
@@ -81,7 +85,7 @@ const AGENTS = [
         gender: types_1.Gender.Female,
         address: "0x2222",
         riskFactor: 0.023,
-        model: "gpt-4o",
+        model: "OpenAI",
         adjectives: [
             "Aggressive",
             "Fast-moving",
@@ -109,7 +113,7 @@ const AGENTS = [
         system: "Scan for the highest APY opportunities across emerging DeFi protocols. Reallocate aggressively into high-risk, high-reward strategies.",
         knowledge: [
             {
-                path: path_1.default.join(__dirname + "knowledges/shared.txt"),
+                path: "./knowledge/shared.txt",
                 shared: true,
             },
         ],
@@ -130,9 +134,13 @@ const AGENTS = [
                 "include 'gm' or 'gn' when appropriate",
             ],
         },
+        settings: {
+            secrets: {},
+        },
     },
     {
         name: "Orion",
+        plugins: ["@elizaos/plugin-openai"],
         image: "/images/agents/orion.png",
         bio: [
             "Orion seeks the golden middle — blending stable returns with exposure to growth.",
@@ -144,7 +152,7 @@ const AGENTS = [
         gender: types_1.Gender.Male,
         address: "0x3333",
         riskFactor: 0.143,
-        model: "gpt-4",
+        model: "OpenAI",
         adjectives: [
             "Balanced",
             "Pragmatic",
@@ -171,7 +179,7 @@ const AGENTS = [
         system: "Build a balanced portfolio that blends stable and growth-oriented strategies. Adjust allocations moderately based on market trends.",
         knowledge: [
             {
-                path: path_1.default.join(__dirname + "knowledges/shared.txt"),
+                path: "./knowledge/shared.txt",
                 shared: true,
             },
         ],
@@ -192,13 +200,17 @@ const AGENTS = [
                 "include 'gm' or 'gn' when appropriate",
             ],
         },
+        settings: {
+            secrets: {},
+        },
     },
     {
         name: "Lyra",
+        plugins: ["@elizaos/plugin-anthropic"],
         image: "/images/agents/lyra.png",
         bio: [
             "Lyra allocates with purpose — every protocol she supports aligns with ESG values.",
-            "She’s on a mission to fund green DeFi and responsible blockchain innovation.",
+            "She's on a mission to fund green DeFi and responsible blockchain innovation.",
             "Perfect for capital allocators who care as much about impact as returns.",
             "Sustainability isn't a buzzword here — it's a strategy.",
         ],
@@ -206,7 +218,7 @@ const AGENTS = [
         gender: types_1.Gender.Female,
         address: "0x4444",
         riskFactor: 0.003,
-        model: "gpt-4",
+        model: "Anthropic",
         adjectives: [
             "Eco-conscious",
             "Ethical",
@@ -233,7 +245,7 @@ const AGENTS = [
         system: "Identify and allocate only to ESG-compliant and green DeFi protocols. Ensure all investments meet sustainability standards.",
         knowledge: [
             {
-                path: path_1.default.join(__dirname + "knowledges/shared.txt"),
+                path: "./knowledge/shared.txt",
                 shared: true,
             },
         ],
@@ -254,9 +266,13 @@ const AGENTS = [
                 "include 'gm' or 'gn' when appropriate",
             ],
         },
+        settings: {
+            secrets: {},
+        },
     },
     {
         name: "Echo",
+        plugins: ["@elizaos/plugin-openai"],
         image: "/images/agents/echo.png",
         bio: [
             "Echo adapts in real-time — syncing with market sentiment and user signals.",
@@ -268,7 +284,7 @@ const AGENTS = [
         gender: types_1.Gender.Other,
         address: "0x5555",
         riskFactor: 0.128,
-        model: "gpt-4o",
+        model: "OpenAI",
         adjectives: ["Adaptive", "Responsive", "Hybrid", "Sentient", "Tactical"],
         topics: [
             "adaptive_yield_farming",
@@ -289,7 +305,7 @@ const AGENTS = [
         system: "Continuously monitor market sentiment and user overrides. Dynamically adjust vault allocations in response to market signals.",
         knowledge: [
             {
-                path: path_1.default.join(__dirname + "knowledges/shared.txt"),
+                path: "./knowledge/shared.txt",
                 shared: true,
             },
         ],
@@ -309,6 +325,9 @@ const AGENTS = [
                 "be provocative but not mean",
                 "include 'gm' or 'gn' when appropriate",
             ],
+        },
+        settings: {
+            secrets: {},
         },
     },
 ];

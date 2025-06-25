@@ -10,12 +10,28 @@ exports.AppModule = void 0;
 const common_1 = require("@nestjs/common");
 const app_controller_1 = require("./app.controller");
 const app_service_1 = require("./app.service");
+const bullmq_1 = require("@nestjs/bullmq");
+const config_1 = require("@nestjs/config");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
 exports.AppModule = AppModule = __decorate([
     (0, common_1.Module)({
-        imports: [],
+        imports: [
+            config_1.ConfigModule.forRoot(),
+            bullmq_1.BullModule.forRoot({
+                connection: {
+                    username: process.env.REDIS_USERNAME,
+                    host: process.env.REDIS_HOST,
+                    port: Number(process.env.REDIS_PORT),
+                    password: process.env.REDIS_PASSWORD,
+                    connectTimeout: 10000,
+                    retryStrategy: (times) => Math.min(times * 50, 2000),
+                    tls: {},
+                },
+            }),
+            bullmq_1.BullModule.registerQueue({ name: "VaultWorker" }),
+        ],
         controllers: [app_controller_1.AppController],
         providers: [app_service_1.AppService],
     })

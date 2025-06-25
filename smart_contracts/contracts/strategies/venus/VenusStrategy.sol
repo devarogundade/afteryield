@@ -2,7 +2,7 @@
 pragma solidity ^0.8.28;
 
 import {Consts} from "../../libs/Consts.sol";
-import {BaseStrategy} from "../BaseStrategy.sol";
+import {BaseStrategy} from "../__base/BaseStrategy.sol";
 import {ISwapRouter} from "../../interfaces/ISwapRouter.sol";
 import {IStrategy} from "../../interfaces/IStrategy.sol";
 import {IFeeCollector} from "../../interfaces/IFeeCollector.sol";

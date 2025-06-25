@@ -4,9 +4,20 @@ import type { Hex } from "viem";
 import { AGENTS } from "./constants/agent";
 import { VAULTS } from "./constants/vault";
 import { STRATEGIES } from "./constants/strategy";
+import { InjectQueue } from "@nestjs/bullmq";
+import VaultWorker from "./workers/vault-worker";
+import { Queue } from "bullmq";
 
 @Injectable()
 export class AppService {
+  constructor(@InjectQueue(VaultWorker.name) private vaultWorkerQueue: Queue) {
+    AGENTS.forEach((character) => {
+      this.vaultWorkerQueue.add(character.address, character).catch((error) => {
+        console.log(error);
+      });
+    });
+  }
+
   getAgents(): AfterYieldAgent[] {
     return AGENTS;
   }

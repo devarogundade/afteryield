@@ -5,6 +5,8 @@ import {IFeeCollector} from "./IFeeCollector.sol";
 import {IERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
 interface IBaseStrategy {
+    event Deposit(uint256 amountScaled);
+    event Withdraw(uint256 amountScaled);
     event VaultSetted(address vault);
     event StrategyFeeIdSetted(uint256 feeId);
     event WithdrawalFeeSetted(uint256 fee);
@@ -13,6 +15,16 @@ interface IBaseStrategy {
     event StrategistSetted(address manager);
     event FeeRecipientSetted(address feeRecipient);
     event FeeCollectorSetted(address feeCollector);
+    event StrategyHarvest(
+        address harvester,
+        uint256 assetHarvested,
+        uint256 tvl
+    );
+    event ChargedFees(
+        uint256 callFeeAmount,
+        uint256 feeAmount,
+        uint256 strategistFeeAmount
+    );
 
     function setStrategyFeeId(uint256 newFeeId) external;
 

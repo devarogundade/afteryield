@@ -66,12 +66,10 @@ onMounted(() => {
                             <div class="address">{{ agent.address }}
                                 <i class="fi fi-rs-copy"></i>
                             </div>
-                            <p class="bio">{{ agent.bio }}</p>
+                            <p class="bio">{{ agent.bio[0] }}</p>
                             <p class="traits">{{ agent.traits.join(', ') }}</p>
 
                             <span>{{ agent.gender }}</span>
-
-
                         </div>
                     </div>
                 </div>

@@ -42,6 +42,7 @@ abstract contract BaseStrategy is
         _strategist = config.strategist;
         _feeRecipient = config.feeRecipient;
         _feeCollector = IFeeCollector(config.feeCollector);
+
         _withdrawalFee = 10;
     }
 

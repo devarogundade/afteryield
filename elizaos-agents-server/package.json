@@ -21,8 +21,11 @@
   },
   "dependencies": {
     "@elizaos/core": "^1.0.12",
+    "@elizaos/plugin-anthropic": "^1.0.3",
+    "@elizaos/plugin-openai": "^1.0.6",
     "@nestjs/bullmq": "^11.0.2",
     "@nestjs/common": "^11.0.1",
+    "@nestjs/config": "^4.0.2",
     "@nestjs/core": "^11.0.1",
     "@nestjs/mongoose": "^11.0.3",
     "@nestjs/platform-express": "^11.0.1",
@@ -30,6 +33,7 @@
     "mongoose": "^8.16.0",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.1",
+    "uuid": "^11.1.0",
     "viem": "^2.31.3"
   },
   "devDependencies": {

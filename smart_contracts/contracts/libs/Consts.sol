@@ -2,7 +2,8 @@
 pragma solidity ^0.8.28;
 
 library Consts {
-    address public constant ETH = address(0);
+    address public constant ETH =
+        address(0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE);
 
     uint256 public constant DIVISOR = 1e18;
 

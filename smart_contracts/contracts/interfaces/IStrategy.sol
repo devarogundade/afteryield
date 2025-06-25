@@ -5,24 +5,6 @@ import {IBaseStrategy} from "./IBaseStrategy.sol";
 import {IERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
 interface IStrategy is IBaseStrategy {
-    event StrategyHarvest(
-        address harvester,
-        uint256 assetHarvested,
-        uint256 tvl
-    );
-    event ChargedFees(
-        uint256 callFeeAmount,
-        uint256 feeAmount,
-        uint256 strategistFeeAmount
-    );
-    event Withdraw(uint256 balance);
-    event Deposit(uint256 balance);
-
-    struct Upgrade {
-        address implementation;
-        uint256 proposedTime;
-    }
-
     function deposit() external;
 
     function withdraw(

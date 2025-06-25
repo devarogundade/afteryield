@@ -6,6 +6,7 @@ import { AccountService } from "src/services/account";
 export const AccountPlugin: Plugin = {
   name: "account-plugin",
   description: "Provides account lookup functionality.",
+  // models: {},
   providers: [AccountProvider],
   services: [AccountService],
   actions: [getAccountInfo],

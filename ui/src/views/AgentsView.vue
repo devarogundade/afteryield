@@ -73,7 +73,7 @@ const addToAccount = (agent: AfterYieldAgent) => { };
                             <img :src="agent.image" alt="">
                             <div class="agent_name">
                                 <h3>{{ agent.name }}</h3>
-                                <p>{{ agent.bio }}.</p>
+                                <p>{{ agent.bio[0] }}.</p>
                                 <span>{{ agent.gender }}</span>
                             </div>
                         </div>

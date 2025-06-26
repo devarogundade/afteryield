@@ -15,6 +15,7 @@ contract AaveSupplyOnlyStrategy is BaseNativeStrategy {
     address internal _incentivesController;
 
     function initialize(
+        address _WETH,
         address aToken,
         bool harvestOnDeposit,
         address asset,
@@ -33,6 +34,7 @@ contract AaveSupplyOnlyStrategy is BaseNativeStrategy {
             addReward(rewardTokens[i]);
         }
 
+        WETH = _WETH;
         _asset = asset;
         _rewardTokens = rewardTokens;
         _lockDuration = 1 days;

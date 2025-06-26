@@ -11,7 +11,7 @@ import {IAddressesProvider} from "../interfaces/IAddressesProvider.sol";
 import {IERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import {Initializable} from "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
 
-contract MockVault is Initializable, VaultUpgradeable {
+contract SimpleVault is Initializable, VaultUpgradeable {
     function initialize(
         string memory name,
         string memory symbol,

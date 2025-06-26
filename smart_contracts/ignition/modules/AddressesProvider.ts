@@ -18,7 +18,7 @@ const AddressesProviderModule = buildModule("AddressesProviderModule", (m) => {
   m.call(addressesProvider, "setAccountFactory", [accountFactory]);
   m.call(addressesProvider, "setFeeCollector", [feeCollector]);
 
-  return { addressesProvider };
+  return { addressesProvider, feeCollector };
 });
 
 export default AddressesProviderModule;

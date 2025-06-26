@@ -150,7 +150,7 @@ abstract contract BaseNativeStrategy is
                 deposit();
             }
 
-            emit StrategyHarvest(msg.sender, wantHarvested, getBalanceOf());
+            emit StrategyHarvest(_msgSender(), wantHarvested, getBalanceOf());
         }
     }
 
@@ -345,7 +345,7 @@ abstract contract BaseNativeStrategy is
     }
 
     function setStrategist(address newStrategist) external {
-        require(msg.sender == _strategist, "Already setted");
+        require(_msgSender() == _strategist, "Already setted");
         _strategist = newStrategist;
         emit StrategistSetted(newStrategist);
     }

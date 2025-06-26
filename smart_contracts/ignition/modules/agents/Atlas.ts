@@ -4,22 +4,23 @@
 import { buildModule } from "@nomicfoundation/hardhat-ignition/modules";
 import { parseEther } from "viem";
 import AddressesProviderModule from "../AddressesProvider";
+import AfterYieldTokenModule from "../AfterYieldToken";
 
-const AstraModule = buildModule("AstraModule", (m) => {
-  const feePerTask = m.getParameter("feePerTask", parseEther("0.0001"));
-  const feeCollector = m.getParameter("feeCollector", m.getAccount(0));
-  const feeToken = m.getParameter("feeToken", "");
-
+const AtlasModule = buildModule("AtlasModule", (m) => {
+  const { afterYieldToken: feeToken } = m.useModule(AfterYieldTokenModule);
   const { addressesProvider } = m.useModule(AddressesProviderModule);
 
-  const astra = m.contract("Agent", [
+  const feePerTask = m.getParameter("feePerTask", parseEther("0.0001"));
+  const feeCollector = m.getParameter("feeCollector", m.getAccount(0));
+
+  const atlas = m.contract("Agent", [
     feePerTask,
     feeCollector,
     feeToken,
     addressesProvider,
   ]);
 
-  return { astra };
+  return { atlas };
 });
 
-export default AstraModule;
+export default AtlasModule;

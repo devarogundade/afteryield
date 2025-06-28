@@ -2,7 +2,7 @@
 import { Clients } from '@/scripts/clients';
 import type { AfterYieldAgent } from '@/scripts/types';
 import type { Hex } from 'viem';
-import { onMounted, ref } from 'vue';
+import { onMounted, ref, onUnmounted } from 'vue';
 import { useRoute } from 'vue-router';
 
 const route = useRoute();
@@ -44,6 +44,12 @@ const addToAccount = (agent: AfterYieldAgent) => { };
 const getAgent = async (address: Hex) => {
     agent.value = await Clients.getAgent(address);
 };
+
+onUnmounted(() => {
+    currentAudio.value?.pause();
+    currentAudio.value = null;
+    currentlyPlayingAgent.value = null;
+});
 
 onMounted(() => {
     const agentAddress = route.params?.id?.toString();

@@ -265,6 +265,10 @@ abstract contract BaseNativeStrategy is
         return (_totalLocked * remaining) / _lockDuration;
     }
 
+    function getLastHarvest() external view returns (uint256 lastHarvest) {
+        lastHarvest = _lastHarvest;
+    }
+
     function getBalanceOf() public view returns (uint256) {
         return getBalanceOfAsset() + _getBalanceOfPool() - getLockedProfit();
     }

@@ -1,9 +1,9 @@
 import { createRouter, createWebHistory } from "vue-router";
 import HomeView from "../views/HomeView.vue";
 import AgentsView from "@/views/AgentsView.vue";
-import AccountSetupView from "@/views/AccountSetupView.vue";
 import AgentInfoView from "@/views/AgentInfoView.vue";
 import VaultInfoView from "@/views/VaultInfoView.vue";
+import AccountView from "@/views/AccountView.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -21,8 +21,9 @@ const router = createRouter({
     {
       path: "/account",
       name: "account",
-      component: AccountSetupView,
+      component: AccountView,
     },
+
     {
       path: "/vaults/:id",
       name: "home-vault",

@@ -1,11 +1,18 @@
 <script setup lang="ts">
-import type { AfterYieldAgent } from '@/scripts/types';
+import type { AfterYieldAgent, AssetType } from '@/scripts/types';
 import { useDataStore } from '@/stores/data';
-import { ref } from 'vue';
+import { ref, onUnmounted } from 'vue';
+import { zeroAddress, type Hex } from 'viem';
+import { AccountContract } from '@/scripts/contracts';
+import { useRouter } from 'vue-router';
+import { notify } from '@/reactives/notify';
 
+const router = useRouter();
 const dataStore = useDataStore();
 const currentAudio = ref<HTMLAudioElement | null>(null);
 const currentlyPlayingAgent = ref<string | null>(null);
+
+const addingAgent = ref<Hex | null>(null);
 
 const pauseOrBioAudio = (agent: AfterYieldAgent, e: any) => {
     e.preventDefault();
@@ -35,7 +42,42 @@ const pauseOrBioAudio = (agent: AfterYieldAgent, e: any) => {
     };
 };
 
-const addToAccount = (agent: AfterYieldAgent) => { };
+
+const addToAccount = async (agent: AfterYieldAgent, e: any) => {
+    e.preventDefault();
+
+    if (addingAgent.value) return;
+    addingAgent.value = agent.address;
+
+    if (dataStore.account == zeroAddress) {
+        return router.push('/account');;
+    }
+
+    const txHash = await AccountContract.addAgents(dataStore.account, [agent.address]);
+
+    if (txHash) {
+        notify.push({
+            title: 'Agent added to account',
+            description: 'Transaction sent',
+            category: 'success'
+        });
+    }
+    else {
+        notify.push({
+            title: 'Failed to add agent',
+            description: 'Transaction failed',
+            category: 'error'
+        });
+    }
+
+    addingAgent.value = null;
+};
+
+onUnmounted(() => {
+    currentAudio.value?.pause();
+    currentAudio.value = null;
+    currentlyPlayingAgent.value = null;
+});
 </script>
 
 <template>
@@ -118,7 +160,8 @@ const addToAccount = (agent: AfterYieldAgent) => { };
                                     <i v-else class="fi fi-rs-play"></i>
                                     Bio
                                 </button>
-                                <button class="use" @click="addToAccount(agent)">Add to account</button>
+                                <button class="use" @click="addToAccount(agent, $event)">{{
+                                    addingAgent == agent.address ? 'Adding' : 'Add to account' }}</button>
                                 <div class="star"><i class="fi fi-rs-star"></i></div>
                             </div>
                         </div>

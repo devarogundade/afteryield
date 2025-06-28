@@ -8,6 +8,7 @@ export const useDataStore = defineStore("data", {
     agents: [] as AfterYieldAgent[],
     strategies: [] as StrategyInfo[],
     account: zeroAddress as Hex,
+    accountAgents: [] as AfterYieldAgent[],
   }),
   actions: {
     setVaults(newVaults: VaultInfo[]) {
@@ -21,6 +22,11 @@ export const useDataStore = defineStore("data", {
     },
     setAccount(newAccount: Hex) {
       this.account = newAccount;
+    },
+    setAccountAgents(newAgents: Hex[]) {
+      this.accountAgents = this.agents.filter((agent) =>
+        newAgents.includes(agent.address)
+      );
     },
   },
 });

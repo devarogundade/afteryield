@@ -32,6 +32,10 @@ interface IVault is IERC20 {
 
     function reallocate(uint256[] memory allocations) external;
 
+    function getLastHarvest(
+        uint256 strategyIndex
+    ) external view returns (uint256 lastHarvest);
+
     function getAsset() external view returns (address asset);
 
     function getShares(

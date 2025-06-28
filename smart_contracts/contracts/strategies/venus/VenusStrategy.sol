@@ -279,6 +279,10 @@ contract VenusStrategy is Initializable, IStrategy, BaseStrategy {
 
     // =========== VIEW FUNCTIONS =========== //
 
+    function getLastHarvest() external view returns (uint256 lastHarvest) {
+        lastHarvest = _lastHarvest;
+    }
+
     function getAsset() external view returns (address asset) {
         asset = _asset;
     }
@@ -293,6 +297,10 @@ contract VenusStrategy is Initializable, IStrategy, BaseStrategy {
 
     function getBalanceOfPool() external view returns (uint256 balanceOfPool) {
         balanceOfPool = _balanceOfPool;
+    }
+
+    function getBaseRate() external pure returns (uint256 baseRate) {
+        baseRate = 0;
     }
 
     receive() external payable {

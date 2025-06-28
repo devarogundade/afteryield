@@ -29,6 +29,8 @@ interface IStrategy is IBaseStrategy {
 
     function setRewarder(address newRewarder) external;
 
+    function getLastHarvest() external view returns (uint256 lastHarvest);
+
     function getAsset() external view returns (address asset);
 
     function getBalanceOf() external view returns (uint256 balanceOf);
@@ -36,4 +38,6 @@ interface IStrategy is IBaseStrategy {
     function getBalanceOfAsset() external view returns (uint256 balanceOfAsset);
 
     function getBalanceOfPool() external view returns (uint256 balanceOfPool);
+
+    function getBaseRate() external view returns (uint256 baseRate);
 }

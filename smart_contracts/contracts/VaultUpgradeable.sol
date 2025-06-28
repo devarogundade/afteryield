@@ -22,6 +22,7 @@ contract VaultUpgradeable is
     IStrategy[] internal _strategies;
     mapping(IStrategy => uint256) internal _allocations;
     IAgent internal _agent;
+    uint256 internal _lastHarvest;
 
     function __Vault_init(
         string memory name,
@@ -283,6 +284,12 @@ contract VaultUpgradeable is
     function _onRemoveStrategy(IStrategy strategy) internal {
         strategy.exitStrategy();
         earn();
+    }
+
+    function getLastHarvest(
+        uint256 strategyIndex
+    ) external view returns (uint256 lastHarvest) {
+        lastHarvest = _strategies[strategyIndex].getLastHarvest();
     }
 
     function getAsset() external view returns (address asset) {

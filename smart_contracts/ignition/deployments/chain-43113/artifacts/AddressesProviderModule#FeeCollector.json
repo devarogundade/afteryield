@@ -1,0 +1,94 @@
+{
+  "_format": "hh-sol-artifact-1",
+  "contractName": "FeeCollector",
+  "sourceName": "contracts/protocol/FeeCollector.sol",
+  "abi": [
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "strategy",
+          "type": "address"
+        }
+      ],
+      "name": "getFees",
+      "outputs": [
+        {
+          "components": [
+            {
+              "internalType": "uint256",
+              "name": "total",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "protocol",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "call",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "strategist",
+              "type": "uint256"
+            },
+            {
+              "internalType": "string",
+              "name": "label",
+              "type": "string"
+            },
+            {
+              "internalType": "bool",
+              "name": "active",
+              "type": "bool"
+            }
+          ],
+          "internalType": "struct IFeeCollector.FeeCategory",
+          "name": "",
+          "type": "tuple"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "feeId",
+          "type": "uint256"
+        }
+      ],
+      "name": "setStrategyFeeId",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "strategy",
+          "type": "address"
+        }
+      ],
+      "name": "strategyFeeId",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    }
+  ],
+  "bytecode": "0x608080604052346015576101ee908161001b8239f35b600080fdfe608080604052600436101561001357600080fd5b60003560e01c90816319a501ad146101a55781639af608c914610080575063a5ed41751461004057600080fd5b3461007b57602036600319011261007b5760043573ffffffffffffffffffffffffffffffffffffffff81160361007b57602060405160008152f35b600080fd5b3461007b57602036600319011261007b5760043573ffffffffffffffffffffffffffffffffffffffff81160361007b5760c0810181811067ffffffffffffffff8211176101765760405260008152602081019060008252604081019060008252606081016000815260808201906060825260a08301936000855260405195869460208652516020860152516040850152516060840152516080830152519160c060a08301528251928360e084015260005b84811061015d5750509161010092600084838501015251151560c0830152601f80199101168101030190f35b6020828201810151610100888401015286945001610131565b7f4e487b7100000000000000000000000000000000000000000000000000000000600052604160045260246000fd5b3461007b57602036600319011261007b5700fea2646970667358221220221a4be3aeef445bcd4e0e8da7e8597fc3003e03461746cb373eb4f5dcf151d464736f6c634300081c0033",
+  "deployedBytecode": "0x608080604052600436101561001357600080fd5b60003560e01c90816319a501ad146101a55781639af608c914610080575063a5ed41751461004057600080fd5b3461007b57602036600319011261007b5760043573ffffffffffffffffffffffffffffffffffffffff81160361007b57602060405160008152f35b600080fd5b3461007b57602036600319011261007b5760043573ffffffffffffffffffffffffffffffffffffffff81160361007b5760c0810181811067ffffffffffffffff8211176101765760405260008152602081019060008252604081019060008252606081016000815260808201906060825260a08301936000855260405195869460208652516020860152516040850152516060840152516080830152519160c060a08301528251928360e084015260005b84811061015d5750509161010092600084838501015251151560c0830152601f80199101168101030190f35b6020828201810151610100888401015286945001610131565b7f4e487b7100000000000000000000000000000000000000000000000000000000600052604160045260246000fd5b3461007b57602036600319011261007b5700fea2646970667358221220221a4be3aeef445bcd4e0e8da7e8597fc3003e03461746cb373eb4f5dcf151d464736f6c634300081c0033",
+  "linkReferences": {},
+  "deployedLinkReferences": {}
+}

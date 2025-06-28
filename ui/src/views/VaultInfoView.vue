@@ -1,26 +1,178 @@
 <script setup lang="ts">
+import Chart from '@/components/Chart.vue';
+import { notify } from '@/reactives/notify';
 import { Clients } from '@/scripts/clients';
-import type { AfterYieldAgent, VaultInfo } from '@/scripts/types';
+import { getTokens } from '@/scripts/constants';
+import { VaultContract } from '@/scripts/contracts';
+import { TokenContract } from '@/scripts/erc20';
+import type { AfterYieldAgent, ChartData, VaultInfo } from '@/scripts/types';
+import { useBalanceStore } from '@/stores/balance';
 import { useDataStore } from '@/stores/data';
-import type { Hex } from 'viem';
+import { useWalletStore } from '@/stores/wallet';
+import { formatEther, formatUnits, parseEther, parseUnits, type Hex } from 'viem';
 import { computed, onMounted, ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
 
 const route = useRoute();
 const dataStore = useDataStore();
+const walletStore = useWalletStore();
+const balanceStore = useBalanceStore();
+
+const amount = ref(0);
+const depositing = ref(false);
+const withdrawing = ref(false);
+
+const tabs = ref({
+    rate: 'apy' as 'apy' | 'tvl' | 'price',
+    lp: 'total' as 'lp' | 'total',
+    strategies: 'in-use' as 'in-use' | 'all',
+    detail: 'asset' as 'asset' | 'platform' | 'rewards'
+});
+
+const chartData = ref<ChartData[]>([]);
+
+const isDeposit = ref(true);
 
 const vault = ref<VaultInfo | undefined>(undefined);
 const agent = ref<AfterYieldAgent | undefined>(undefined);
 
 const getVault = async (address: Hex) => {
     vault.value = await Clients.getVault(address); getAgent();
-
 };
 
 const getAgent = () => {
     if (vault.value?.agentAddress) {
         agent.value = dataStore.agents.find((agent) => agent.address == vault.value?.agentAddress);
     }
+};
+
+const getUserTokenBalances = async () => {
+    if (!walletStore.address) return;
+
+    for (let index = 0; index < getTokens.length; index++) {
+        const balance = await TokenContract.getTokenBalance(
+            getTokens[index].address,
+            walletStore.address
+        );
+
+        balanceStore.setUserBalance(
+            getTokens[index].address,
+            Number(formatUnits(balance, getTokens[index].decimals))
+        );
+    }
+};
+
+const getUserVaultTokenBalances = async () => {
+    if (!walletStore.address || dataStore.vaults.length === 0) return;
+
+    for (let index = 0; index < dataStore.vaults.length; index++) {
+        const balance = await TokenContract.getTokenBalance(
+            dataStore.vaults[index].address,
+            walletStore.address
+        );
+
+        balanceStore.setUserBalance(dataStore.vaults[index].address, Number(formatEther(balance)));
+    }
+};
+
+const deposit = async () => {
+    if (!vault.value) return;
+    if (depositing.value) return;
+    depositing.value = true;
+
+    if (amount.value === 0) {
+        return;
+    }
+
+    const approvalTxHash = await TokenContract.approve(
+        vault.value.asset.address,
+        vault.value.address,
+        parseUnits(amount.value.toString(), vault.value.asset.decimals)
+    );
+
+    if (!approvalTxHash) {
+        notify.push({
+            title: 'Token approval failed',
+            description: 'Transaction failed',
+            category: 'error'
+        });
+        depositing.value = false;
+        return;
+    }
+
+    const txHash = await VaultContract.deposit(
+        vault.value.address,
+        parseUnits(amount.value.toString(), vault.value.asset.decimals)
+    );
+
+    if (txHash) {
+        notify.push({
+            title: 'Token deposited',
+            description: 'Transaction sent',
+            category: 'success'
+        });
+
+        getUserVaultTokenBalances();
+        getUserTokenBalances();
+    } else {
+        notify.push({
+            title: 'Token deposit failed',
+            description: 'Transaction failed',
+            category: 'error'
+        });
+    }
+
+    depositing.value = false;
+};
+
+const withdraw = async () => {
+    if (!vault.value) return;
+    if (withdrawing.value) return;
+    withdrawing.value = true;
+
+    if (amount.value === 0) {
+        return;
+    }
+
+    const approvalTxHash = await TokenContract.approve(
+        vault.value.address,
+        vault.value.address,
+        parseEther(amount.value.toString())
+    );
+
+    if (!approvalTxHash) {
+        notify.push({
+            title: 'LP token approval failed',
+            description: 'Transaction failed',
+            category: 'error'
+        });
+        depositing.value = false;
+        return;
+    }
+
+    const txHash = await VaultContract.withdraw(
+        vault.value.address,
+        parseEther(amount.value.toString())
+    );
+
+    if (txHash) {
+        notify.push({
+            title: 'Token withdrawn',
+            description: 'Transaction sent',
+            category: 'success'
+        });
+
+        getUserVaultTokenBalances();
+        getUserTokenBalances();
+    } else {
+        notify.push({
+            title: 'Token withdraw failed',
+            description: 'Transaction failed',
+            category: 'error'
+        });
+    }
+
+    depositing.value = false;
 };
 
 watch(computed(() => dataStore.agents), () => {
@@ -41,7 +193,7 @@ onMounted(() => {
             <div class="vault_title">
                 <div class="title_left">
                     <div class="images">
-                        <img src="/images/chainlink.png" alt="">
+                        <img :src="vault.image" alt="">
                     </div>
                     <h3>{{ vault.name }}</h3>
                 </div>
@@ -94,13 +246,20 @@ onMounted(() => {
                     <div class="chart_head">
                         <h3>Historical rate</h3>
                         <div class="tabs">
-                            <button class="tab tab_active">APY</button>
-                            <button class="tab">TVL</button>
-                            <button class="tab">Price</button>
+                            <button @click="tabs.rate = 'apy'"
+                                :class="tabs.rate === 'apy' ? 'tab tab_active' : 'tab'">APY</button>
+                            <button @click="tabs.rate = 'tvl'"
+                                :class="tabs.rate === 'tvl' ? 'tab tab_active' : 'tab'">TVL</button>
+                            <button @click="tabs.rate = 'price'"
+                                :class="tabs.rate === 'price' ? 'tab tab_active' : 'tab'">Price</button>
                         </div>
                     </div>
 
-                    <div class="graph"></div>
+                    <div class="graph">
+                        <!-- <Chart :data="{
+
+                        }" /> -->
+                    </div>
 
                     <div class="chart_info">
                         <div class="averages">
@@ -124,8 +283,30 @@ onMounted(() => {
 
                 <div class="cashier">
                     <div class="cashier_head">
-                        <button class="button_active">Deposit</button>
-                        <button>Withdraw</button>
+                        <button @click="isDeposit = true" :class="isDeposit ? 'button_active' : ''">Deposit</button>
+                        <button @click="isDeposit = false" :class="isDeposit ? '' : 'button_active'">Withdraw</button>
+                    </div>
+
+                    <div class="cash" v-if="isDeposit">
+                        <div class="input">
+                            <input v-model="amount" type="number" placeholder="0.00">
+                            <div class="token">{{ vault.asset.symbol }}</div>
+                        </div>
+
+                        <p class="balance">Bal: {{ balanceStore.userBalances[vault.asset.address] }}</p>
+
+                        <button @click="deposit">Deposit</button>
+                    </div>
+
+                    <div class="cash" v-else>
+                        <div class="input">
+                            <input v-model="amount" type="number" placeholder="0.00">
+                            <div class="token">{{ vault.asset.symbol }} LP</div>
+                        </div>
+
+                        <p class="balance">LP Bal: {{ balanceStore.userBalances[vault.address] }}</p>
+
+                        <button @click="withdraw">Withdraw</button>
                     </div>
                 </div>
 
@@ -134,8 +315,10 @@ onMounted(() => {
                         <h3>LP Breakdown</h3>
 
                         <div class="tabs">
-                            <button class="tab">1LP</button>
-                            <button class="tab tab_active">Total Pool</button>
+                            <button @click="tabs.lp = 'lp'"
+                                :class="tabs.lp === 'lp' ? 'tab tab_active' : 'tab'">1LP</button>
+                            <button @click="tabs.lp = 'total'"
+                                :class="tabs.lp === 'total' ? 'tab tab_active' : 'tab'">Total Pool</button>
                         </div>
                     </div>
                 </div>
@@ -148,6 +331,11 @@ onMounted(() => {
                             <button>View agent</button>
                         </RouterLink>
                     </div>
+
+                    <div class="agent_info">
+                        <img :src="agent.image" alt="">
+                        <p>{{ agent.name }}</p>
+                    </div>
                 </div>
 
                 <div class="strategies">
@@ -155,9 +343,41 @@ onMounted(() => {
                         <h3>Strategies</h3>
 
                         <div class="tabs">
-                            <button class="tab tab_active">In use</button>
-                            <button class="tab">All strategies</button>
+                            <button @click="tabs.strategies = 'in-use'"
+                                :class="tabs.strategies === 'in-use' ? 'tab tab_active' : 'tab'">In use</button>
+                            <button @click="tabs.strategies = 'all'"
+                                :class="tabs.strategies === 'all' ? 'tab tab_active' : 'tab'">All strategies</button>
                         </div>
+                    </div>
+
+                    <div class="strategies_info">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Platform</th>
+                                    <th>APY</th>
+                                    <th>Last harvert</th>
+                                    <th>Allocation</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Aave Supply Only</td>
+                                    <td>Aave</td>
+                                    <td>23.82%</td>
+                                    <td>2 hours ago</td>
+                                    <td>76%</td>
+                                </tr>
+                                <tr>
+                                    <td>Unallocated</td>
+                                    <td>AfterYield</td>
+                                    <td>0.00%</td>
+                                    <td>2 hours ago</td>
+                                    <td>24%</td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
 
@@ -172,11 +392,60 @@ onMounted(() => {
                         <h3>Details</h3>
 
                         <div class="tabs">
-                            <button class="tab tab_active">Assets</button>
-                            <button class="tab">Platform</button>
+                            <button @click="tabs.detail = 'asset'"
+                                :class="tabs.detail === 'asset' ? 'tab tab_active' : 'tab'">Asset</button>
+                            <button @click="tabs.detail = 'rewards'"
+                                :class="tabs.detail === 'rewards' ? 'tab tab_active' : 'tab'">Rewards</button>
+                            <button @click="tabs.detail = 'platform'"
+                                :class="tabs.detail === 'platform' ? 'tab tab_active' : 'tab'">Platforms</button>
                         </div>
                     </div>
 
+                    <div class="vault_details_info">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Type</th>
+                                    <th>Value</th>
+                                </tr>
+                            </thead>
+                            <tbody v-if="tabs.detail === 'asset'">
+                                <tr>
+                                    <td>Name</td>
+                                    <td>{{ vault.asset.name }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Symbol</td>
+                                    <td>{{ vault.asset.symbol }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Decimals</td>
+                                    <td>{{ vault.asset.decimals }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Asset-Type</td>
+                                    <td>ERC20</td>
+                                </tr>
+                            </tbody>
+                            <tbody v-else-if="tabs.detail === 'platform'">
+                                <tr>
+                                    <td>Name</td>
+                                    <td>{{ vault.allSupportedStrategies[0].platform.name }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Website</td>
+                                    <td><a :href="vault.allSupportedStrategies[0].platform.website" target="_blank">{{
+                                        vault.allSupportedStrategies[0].platform.website }}</a></td>
+                                </tr>
+                                <tr>
+                                    <td>Logo</td>
+                                    <td><img :src="vault.allSupportedStrategies[0].platform.icon" alt=""></td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+
+                    </div>
                 </div>
             </div>
         </div>
@@ -412,6 +681,57 @@ onMounted(() => {
     border-bottom: 1px solid var(--primary-light);
 }
 
+.cash {
+    padding: 24px;
+}
+
+.cash .input {
+    display: flex;
+    align-items: center;
+    border-radius: 6px;
+    background: var(--bg-light);
+    overflow: hidden;
+}
+
+.cash input {
+    height: 40px;
+    background: none;
+    border: none;
+    outline: none;
+    font-size: 24px;
+    padding: 0 16px;
+    color: var(--tx-normal);
+    width: 100%;
+}
+
+.cash .token {
+    min-width: 100px;
+    padding: 0 10px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: var(--bg-lightest);
+    font-size: 16px;
+    color: var(--tx-dimmed);
+}
+
+.balance {
+    margin-top: 10px;
+    font-size: 14px;
+    color: var(--tx-semi);
+}
+
+.cash button {
+    margin-top: 40px;
+    width: 100%;
+    height: 50px;
+    border-radius: 6px;
+    background: var(--primary-light);
+    border: none;
+    cursor: pointer;
+}
+
 .lp_info {
     background: var(--bg-lighter);
     border-radius: 6px;
@@ -467,6 +787,25 @@ onMounted(() => {
     justify-content: center;
     gap: 8px;
     cursor: pointer;
+}
+
+.agent_info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 24px;
+}
+
+.agent_info img {
+    width: 40px;
+    height: 40px;
+    border-radius: 20px;
+}
+
+.agent_info p {
+    color: var(--tx-semi);
+    font-weight: 500;
+    font-size: 18px;
 }
 
 .strategies {
@@ -530,5 +869,48 @@ onMounted(() => {
     color: var(--tx-semi);
     font-weight: 500;
     font-size: 18px;
+}
+
+
+table {
+    width: 100%;
+    text-align: left;
+    border-collapse: collapse;
+}
+
+th {
+    padding: 0 24px;
+}
+
+thead {
+    height: 40px;
+    text-transform: uppercase;
+    font-size: 12px;
+    color: var(--tx-dimmed);
+}
+
+tbody tr {
+    height: 50px;
+    font-size: 14px;
+    color: var(--tx-semi);
+    border-collapse: collapse;
+}
+
+
+tbody td {
+    padding: 0 24px;
+    border-top: 1px solid var(--bg-lightest);
+}
+
+table a {
+    color: var(--primary-light);
+    text-decoration: underline;
+}
+
+table img {
+    width: 24px;
+    height: 24px;
+    border-radius: 20px;
+    object-fit: cover;
 }
 </style>

@@ -2,6 +2,7 @@
 pragma solidity ^0.8.28;
 
 import {Enums} from "../libs/Enums.sol";
+import {StringHelpers} from "../libs/StringHelpers.sol";
 import {IAgent} from "../interfaces/IAgent.sol";
 import {IAfterYieldFunctions} from "../interfaces/IAfterYieldFunctions.sol";
 import {FunctionsClient} from "@chainlink/contracts/src/v0.8/functions/v1_0_0/FunctionsClient.sol";
@@ -10,24 +11,25 @@ import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol";
 
 contract AfterYieldFunctions is FunctionsClient, IAfterYieldFunctions, Ownable {
     using FunctionsRequest for FunctionsRequest.Request;
+    using StringHelpers for address;
+    using StringHelpers for uint256;
 
     bytes32 internal _donId;
-    string internal _calculationLogic;
+    string internal _source;
     mapping(bytes32 => address) internal _taskAgents;
     mapping(bytes32 => Enums.TaskType) internal _taskTypes;
 
     constructor(
         address oracle,
         bytes32 donId,
-        string memory calculationLogic
+        string memory source
     ) FunctionsClient(oracle) Ownable(_msgSender()) {
         _donId = donId;
-        _calculationLogic = calculationLogic;
+        _source = source;
     }
 
     function makeRequest(
         Enums.TaskType taskType,
-        string[] calldata args,
         uint64 subscriptionId,
         uint32 gasLimit
     ) external returns (bytes32 requestId) {
@@ -38,8 +40,13 @@ contract AfterYieldFunctions is FunctionsClient, IAfterYieldFunctions, Ownable {
         req.initializeRequest(
             FunctionsRequest.Location.Inline,
             FunctionsRequest.CodeLanguage.JavaScript,
-            _calculationLogic
+            _source
         );
+
+        string[] memory args = new string[](2);
+        args[0] = agent.addressToString();
+        args[1] = uint256(taskType).uintToString();
+
         req.setArgs(args);
 
         requestId = _sendRequest(

@@ -34,7 +34,6 @@ contract Agent is IAgent, Ownable {
     /// @dev Needs to protect upKeep function with rate-limit or controller only.
     function upKeep(
         Enums.TaskType taskType,
-        string[] memory args,
         uint64 subscriptionId,
         uint32 gasLimit
     ) external returns (bytes32 requestId) {
@@ -42,12 +41,7 @@ contract Agent is IAgent, Ownable {
             _provider.getAfterYieldFunctions()
         );
 
-        requestId = functions.makeRequest(
-            taskType,
-            args,
-            subscriptionId,
-            gasLimit
-        );
+        requestId = functions.makeRequest(taskType, subscriptionId, gasLimit);
     }
 
     /// @dev Needs to safe-guard these deposit/withdraw functions to controller and account owner only.

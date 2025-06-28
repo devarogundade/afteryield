@@ -115,6 +115,7 @@ type Fees = {
 type Platform = {
   name: string;
   website: string;
+  icon: string;
 };
 
 type StrategyInfo = {
@@ -122,8 +123,10 @@ type StrategyInfo = {
   name: string;
   asset: Token;
   platformAssets: Token[];
-  rewardToken: Token | undefined;
+  rewardTokens: Token[];
   apy: number;
+  dailyApy: number;
+  tvl: number;
   safety: number;
   vault: Hex;
   feeId: Hex;
@@ -134,6 +137,26 @@ type StrategyInfo = {
   swapRouter: Hex;
   fees: Fees;
   platform: Platform;
+  lastHarvest: Date;
+};
+
+type Notification = {
+  title: string;
+  description: string;
+  category: string;
+  linkTitle?: string;
+  linkUrl?: string;
+};
+
+enum AssetType {
+  StableCoin,
+  BlueChips,
+  Memes,
+}
+
+type ChartData = {
+  name: string;
+  pl: number;
 };
 
 export type {
@@ -144,4 +167,8 @@ export type {
   VaultInfo,
   StrategyInfo,
   AutoPilotMode,
+  Token,
+  Notification,
+  AssetType,
+  ChartData,
 };

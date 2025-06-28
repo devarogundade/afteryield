@@ -1,9 +1,29 @@
 <script setup lang="ts">
+import Converter from '@/scripts/converter';
+import type { AfterYieldAgent, AssetType } from '@/scripts/types';
+import { useBalanceStore } from '@/stores/balance';
 import { useDataStore } from '@/stores/data';
+import type { Hex } from 'viem';
+import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 
 const router = useRouter();
 const dataStore = useDataStore();
+const balanceStore = useBalanceStore();
+
+const filter = ref({
+  assetType: null as AssetType | null,
+  agents: [] as Hex[]
+});
+
+const addOrRemoveAgentToFilter = (agent: AfterYieldAgent) => {
+  const index = filter.value.agents.findIndex(a => a === agent.address);
+  if (index > -1) {
+    filter.value.agents.splice(index, 1);
+  } else {
+    filter.value.agents.push(agent.address);
+  }
+};
 </script>
 
 <template>
@@ -85,8 +105,9 @@ const dataStore = useDataStore();
 
           <div class="tab_right">
             <div class="agents">
-              <div v-for="agent in dataStore.agents" class="agent">
-                <img :src="agent.image" alt="">
+              <div v-for="agent in dataStore.agents"
+                :class="filter.agents.includes(agent.address) ? 'agent_active agent' : 'agent'">
+                <img :src="agent.image" alt="" @click="addOrRemoveAgentToFilter(agent)">
               </div>
             </div>
 
@@ -107,40 +128,59 @@ const dataStore = useDataStore();
                 </div>
               </th>
               <th>Wallet</th>
-              <th>Deposited</th>
-              <th>Current APY</th>
-              <th>Daily</th>
+              <th>Shares LP</th>
+              <th>AVG. Current APY</th>
+              <th>AVG. Daily</th>
               <th>TVL</th>
+              <th>Agent</th>
               <th>Safety</th>
             </tr>
           </thead>
           <tbody>
-            <tr v-for="vault in dataStore.vaults" :key="vault.address" @click="router.push(`/vaults/${vault.address}`)">
+            <tr
+              v-for="vault in dataStore.vaults.filter(vault => filter.agents.length === 0 ? true : filter.agents.includes(vault.agentAddress))"
+              :key="vault.address" @click="router.push(`/vaults/${vault.address}`)">
+              <td>
+                <div class="vault_detail">
+                  <img :src="vault.image" :alt="vault.name">
+                  {{ vault.name }}
+                </div>
+              </td>
+              <td>
+                {{ Converter.toMoney(balanceStore.userBalances[vault.asset.address]) }}
+              </td>
+              <td>
+                {{ Converter.toMoney(balanceStore.userBalances[vault.address]) }}
+              </td>
+              <td>
+                {{
+                  (vault.allSupportedStrategies.reduce((a, b) => a + b.apy, 0) / vault.allSupportedStrategies.length
+                  ) / 100}}%
+              </td>
+              <td>
+                {{
+                  (vault.allSupportedStrategies.reduce((a, b) => a + b.dailyApy, 0) /
+                    vault.allSupportedStrategies.length) / 100
+                }}%
+              </td>
+              <td>
+                {{vault.allSupportedStrategies.reduce((a, b) => a + b.tvl, 0)}} {{ vault.asset.symbol }}
+              </td>
               <td>
                 <div class="vault_agent"
                   v-tooltip:top="dataStore.agents.find(agent => agent.address === vault.agentAddress)?.name">
                   <img :src="dataStore.agents.find(agent => agent.address === vault.agentAddress)?.image" alt="">
                 </div>
-                {{ vault.name }}
               </td>
               <td>
-
-              </td>
-              <td>
-
-              </td>
-              <td>
-
-              </td>
-              <td>
-
-              </td>
-
-              <td>
-
-              </td>
-              <td>
-
+                <div class="safety">
+                  <p>
+                    {{
+                      vault.allSupportedStrategies.reduce((a, b) => a + b.safety, 0) / vault.allSupportedStrategies.length
+                    }} of 100
+                  </p>
+                  <i v-tooltip:top="`Very safe.`" class="fi fi-rs-info"></i>
+                </div>
               </td>
             </tr>
           </tbody>
@@ -275,7 +315,7 @@ const dataStore = useDataStore();
   height: 40px;
   border-radius: 20px;
   object-fit: cover;
-  border: 1px solid var(--bg-lightest);
+  border: 2px solid var(--bg-lightest);
 }
 
 .agent_active img {
@@ -351,18 +391,35 @@ tbody td {
   position: relative;
 }
 
+.vault_detail {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.vault_detail img {
+  width: 40px;
+  height: 40px;
+  border-radius: 20px;
+  object-fit: cover;
+}
+
 .vault_agent {
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 24px;
-  width: 24px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
 .vault_agent img {
-  width: 100%;
-  height: 100%;
+  height: 34px;
+  width: 34px;
   object-fit: cover;
-  border-radius: 0 4px 4px 4px;
+  border-radius: 20px;
+}
+
+.safety {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
 }
 </style>

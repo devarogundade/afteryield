@@ -67,6 +67,11 @@ onMounted(() => {
                             </RouterLink>
                             <div class="tab_border"></div>
                         </div>
+                        <div class="tab">
+                            <a href="https://app.aave.com/faucet/" target="_blank">
+                                <button>Faucet</button>
+                            </a>
+                        </div>
                     </div>
                 </div>
 

@@ -8,7 +8,6 @@ interface IAfterYieldFunctions {
 
     function makeRequest(
         Enums.TaskType taskType,
-        string[] calldata args,
         uint64 subscriptionId,
         uint32 gasLimit
     ) external returns (bytes32 requestId);

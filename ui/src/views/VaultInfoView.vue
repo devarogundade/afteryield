@@ -71,7 +71,7 @@ const getUserVaultTokenBalances = async () => {
             walletStore.address
         );
 
-        balanceStore.setUserBalance(dataStore.vaults[index].address, Number(formatEther(balance)));
+        balanceStore.setUserBalance(dataStore.vaults[index].address, Number(formatUnits(balance, dataStore.vaults[index].asset.decimals)));
     }
 };
 
@@ -146,7 +146,7 @@ const withdraw = async () => {
             description: 'Transaction failed',
             category: 'error'
         });
-        depositing.value = false;
+        withdrawing.value = false;
         return;
     }
 
@@ -164,6 +164,8 @@ const withdraw = async () => {
 
         getUserVaultTokenBalances();
         getUserTokenBalances();
+
+        amount.value = 0;
     } else {
         notify.push({
             title: 'Token withdraw failed',
@@ -172,7 +174,7 @@ const withdraw = async () => {
         });
     }
 
-    depositing.value = false;
+    withdrawing.value = false;
 };
 
 watch(computed(() => dataStore.agents), () => {
@@ -295,7 +297,7 @@ onMounted(() => {
 
                         <p class="balance">Bal: {{ balanceStore.userBalances[vault.asset.address] }}</p>
 
-                        <button @click="deposit">Deposit</button>
+                        <button @click="deposit">{{ depositing ? 'Depositing' : 'Deposit' }}</button>
                     </div>
 
                     <div class="cash" v-else>
@@ -306,7 +308,7 @@ onMounted(() => {
 
                         <p class="balance">LP Bal: {{ balanceStore.userBalances[vault.address] }}</p>
 
-                        <button @click="withdraw">Withdraw</button>
+                        <button @click="withdraw">{{ withdrawing ? 'Withdrawing' : 'Withdraw' }}</button>
                     </div>
                 </div>
 

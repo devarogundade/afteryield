@@ -5,7 +5,7 @@ import { useDataStore } from './stores/data';
 import { Clients } from './scripts/clients';
 import { useWalletStore } from './stores/wallet';
 import { AccountContract, AccountFactoryContract } from './scripts/contracts';
-import { formatUnits, formatEther } from 'viem';
+import { formatUnits } from 'viem';
 import { useBalanceStore } from './stores/balance';
 import { getTokens } from './scripts/constants';
 import { TokenContract } from './scripts/erc20';
@@ -76,7 +76,7 @@ const getUserVaultTokenBalances = async () => {
       walletStore.address
     );
 
-    balanceStore.setUserBalance(dataStore.vaults[index].address, Number(formatEther(balance)));
+    balanceStore.setUserBalance(dataStore.vaults[index].address, Number(formatUnits(balance, dataStore.vaults[index].asset.decimals)));
   }
 };
 

@@ -27,6 +27,8 @@
   },
   "devDependencies": {
     "@tsconfig/node22": "^22.0.1",
+    "@types/d3-axis": "^3.0.6",
+    "@types/d3-shape": "^3.1.7",
     "@types/node": "^22.14.0",
     "@vitejs/plugin-vue": "^5.2.3",
     "@vitejs/plugin-vue-jsx": "^4.1.2",

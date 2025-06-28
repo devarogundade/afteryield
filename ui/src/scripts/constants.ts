@@ -3,7 +3,7 @@ import type { Hex } from "viem";
 
 const Provider = {
   ETH: "0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE" as Hex,
-  AccountFactory: "0x" as Hex,
+  AccountFactory: "0x52F8d14A1Cfd1A53AFDa050F9D74a2dACd7b699B" as Hex,
 };
 
 const getTokens: Token[] = [

@@ -19,7 +19,7 @@ const progress = ref(false);
 </script>
 
 <template>
-    <AccountSetup v-if="dataStore.account != zeroAddress" />
+    <AccountSetup v-if="dataStore.account === zeroAddress" />
 
     <div class="treasury" v-else>
         <div class="assets_grid">

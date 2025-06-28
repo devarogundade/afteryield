@@ -113,7 +113,7 @@ type StrategyInfo = {
   tvl: number;
   safety: number;
   vault: Hex;
-  feeId: Hex;
+  feeId: number;
   manager: Hex;
   feeRecipient: Hex;
   feeCollector: Hex;

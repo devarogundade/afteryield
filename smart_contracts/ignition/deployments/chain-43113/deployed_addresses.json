@@ -1,0 +1,15 @@
+{
+  "AddressesProviderModule#AccountFactory": "0x52F8d14A1Cfd1A53AFDa050F9D74a2dACd7b699B",
+  "AddressesProviderModule#AddressesProvider": "0xdcaa7Ca02a7C00f0A8098C060dC098715c26C40a",
+  "AddressesProviderModule#AfterYieldFunctions": "0x92ba31eEe927322F0611AF845b633aE158807c4C",
+  "AddressesProviderModule#AfterYieldOracle": "0xFf38dBA7Ed4714330fcDbC1722C66F5df73e020E",
+  "AddressesProviderModule#FeeCollector": "0x8686F62a11EC9441572436b0d39dEed936845DD3",
+  "AfterYieldTokenModule#AfterYieldToken": "0xb71e4E5673857569C6e1e2F78f0d602A164aAd40",
+  "UniswapMockModule#UniswapRouter": "0xb098a99693Cded13E1BCF35D5F7101008EF752c9",
+  "VaultLINKModule#AaveSupplyOnlyStrategy": "0x4d5FaF37B4acA71Abe52Ecd741B4079796F0A825",
+  "VaultLINKModule#SimpleVault": "0xAe140a39625119551A1E9e4E82FAF354B48Ec948",
+  "VaultUSDCModule#AaveSupplyOnlyStrategy": "0x9b081D3dEa910862da428a65Bf22518C184E403B",
+  "VaultUSDCModule#SimpleVault": "0x7539de641e4bf34d79C3FB5dC19cd56BC4d52990",
+  "AtlasModule#Agent": "0xDDd09e89D654F284da540B8AbC5C6Fe8ED330d8b",
+  "NovaModule#Agent": "0x85D365964271383c095c730dfC5679267b6173b9"
+}

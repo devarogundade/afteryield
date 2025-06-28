@@ -14,7 +14,7 @@ const AGENTS: AfterYieldAgent[] = [
     ],
     bioAudio: "/voices/atlas.mp3",
     gender: Gender.Male,
-    address: "0x1111",
+    address: "0xDDd09e89D654F284da540B8AbC5C6Fe8ED330d8b",
     riskFactor: 0.0121,
     model: "Anthropic",
     adjectives: [
@@ -82,7 +82,7 @@ const AGENTS: AfterYieldAgent[] = [
     ],
     bioAudio: "/voices/nova.mp3",
     gender: Gender.Female,
-    address: "0x2222",
+    address: "0x85D365964271383c095c730dfC5679267b6173b9",
     riskFactor: 0.023,
     model: "OpenAI",
     adjectives: [

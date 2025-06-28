@@ -1,5 +1,6 @@
 import express from "express";
 import { zeroHash } from "viem";
+import cors from "cors";
 import { AgentRuntime, Memory } from "@elizaos/core";
 
 import { AGENTS } from "./src/constants/agent";
@@ -9,6 +10,7 @@ import { VaultPlugin } from "./src/plugins/vault";
 import { AccountPlugin } from "./src/plugins/account";
 
 const app = express();
+app.use(cors());
 app.use(express.json());
 
 const appService = new AppService();
@@ -60,7 +62,6 @@ app.post("/task", async (req: any, res: any) => {
   const responses: Memory[] = [];
 
   let text = "";
-
   if (taskType === 0) {
     text =
       "Look for strategies you might want to add. And you find any add it.";

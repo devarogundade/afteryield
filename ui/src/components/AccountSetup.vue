@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { notify } from '@/reactives/notify';
 import { AccountFactoryContract } from '@/scripts/contracts';
 import { useDataStore } from '@/stores/data';
 import { useWalletStore } from '@/stores/wallet';
@@ -30,9 +31,10 @@ const createAccount = async () => {
     const txHash = await AccountFactoryContract.createAccount();
 
     if (txHash) {
-
         getAccount();
-    } else { }
+    } else {
+        // notify.push({})
+    }
 
     creating.value = false;
 };
@@ -74,7 +76,7 @@ onMounted(() => {
                         <span>Agree to <a href="">terms of use</a> and continue.</span>
                     </div>
 
-                    <button @click="createAccount">Create Account</button>
+                    <button @click="createAccount">{{ creating ? 'Creating' : 'Create Account' }}</button>
                 </div>
             </div>
 

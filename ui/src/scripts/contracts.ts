@@ -221,11 +221,11 @@ const AccountContract = {
 
   async getAgents(accountAddress: Hex): Promise<Hex[] | null> {
     try {
-      return await readContract(config, {
+      return (await readContract(config, {
         abi: accountABI,
         address: accountAddress,
         functionName: "getAgents",
-      });
+      })) as any;
     } catch (error) {
       return null;
     }
@@ -236,12 +236,12 @@ const AccountContract = {
     agentAddress: Hex
   ): Promise<boolean | null> {
     try {
-      return await readContract(config, {
+      return (await readContract(config, {
         abi: accountABI,
         address: accountAddress,
         functionName: "checkIsAgent",
         args: [agentAddress],
-      });
+      })) as any;
     } catch (error) {
       return null;
     }
@@ -249,11 +249,11 @@ const AccountContract = {
 
   async getOwner(accountAddress: Hex): Promise<Hex | null> {
     try {
-      return await readContract(config, {
+      return (await readContract(config, {
         abi: accountABI,
         address: accountAddress,
         functionName: "getOwner",
-      });
+      })) as any;
     } catch (error) {
       return null;
     }
@@ -306,11 +306,11 @@ const VaultContract = {
 
   async getAsset(vaultAddress: Hex): Promise<Hex | null> {
     try {
-      return await readContract(config, {
+      return (await readContract(config, {
         abi: vaultABI,
         address: vaultAddress,
         functionName: "getAsset",
-      });
+      })) as any;
     } catch (error) {
       return null;
     }
@@ -318,12 +318,12 @@ const VaultContract = {
 
   async getShares(vaultAddress: Hex, lpAmount: bigint): Promise<bigint | null> {
     try {
-      return await readContract(config, {
+      return (await readContract(config, {
         abi: vaultABI,
         address: vaultAddress,
         functionName: "getShares",
         args: [lpAmount],
-      });
+      })) as any;
     } catch (error) {
       return null;
     }
@@ -331,11 +331,11 @@ const VaultContract = {
 
   async getBalance(vaultAddress: Hex): Promise<bigint | null> {
     try {
-      return await readContract(config, {
+      return (await readContract(config, {
         abi: vaultABI,
         address: vaultAddress,
         functionName: "getBalance",
-      });
+      })) as any;
     } catch (error) {
       return null;
     }
@@ -343,11 +343,11 @@ const VaultContract = {
 
   async getAvailable(vaultAddress: Hex): Promise<bigint | null> {
     try {
-      return await readContract(config, {
+      return (await readContract(config, {
         abi: vaultABI,
         address: vaultAddress,
         functionName: "getAvailable",
-      });
+      })) as any;
     } catch (error) {
       return null;
     }
@@ -358,12 +358,12 @@ const VaultContract = {
     strategyAddress: Hex
   ): Promise<bigint | null> {
     try {
-      return await readContract(config, {
+      return (await readContract(config, {
         abi: vaultABI,
         address: vaultAddress,
         functionName: "getAllocation",
         args: [strategyAddress],
-      });
+      })) as any;
     } catch (error) {
       return null;
     }
@@ -373,11 +373,11 @@ const VaultContract = {
     vaultAddress: Hex
   ): Promise<{ allocated: bigint; idle: bigint } | null> {
     try {
-      return await readContract(config, {
+      return (await readContract(config, {
         abi: vaultABI,
         address: vaultAddress,
         functionName: "getAllocation",
-      });
+      })) as any;
     } catch (error) {
       return null;
     }
@@ -385,11 +385,11 @@ const VaultContract = {
 
   async getStrategies(vaultAddress: Hex): Promise<Hex[] | null> {
     try {
-      return await readContract(config, {
+      return (await readContract(config, {
         abi: vaultABI,
         address: vaultAddress,
         functionName: "getStrategies",
-      });
+      })) as any;
     } catch (error) {
       return null;
     }
@@ -417,12 +417,12 @@ const AccountFactoryContract = {
 
   async getAccount(ownerAddress: Hex): Promise<Hex | null> {
     try {
-      return await readContract(config, {
+      return (await readContract(config, {
         abi: accountFactoryABI,
         address: Provider.AccountFactory,
         functionName: "getAccount",
         args: [ownerAddress],
-      });
+      })) as any;
     } catch (error) {
       return null;
     }

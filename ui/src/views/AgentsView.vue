@@ -13,6 +13,7 @@ const currentAudio = ref<HTMLAudioElement | null>(null);
 const currentlyPlayingAgent = ref<string | null>(null);
 
 const addingAgent = ref<Hex | null>(null);
+const removingAgent = ref<Hex | null>(null);
 
 const pauseOrBioAudio = (agent: AfterYieldAgent, e: any) => {
     e.preventDefault();
@@ -42,6 +43,44 @@ const pauseOrBioAudio = (agent: AfterYieldAgent, e: any) => {
     };
 };
 
+const getAccountAgents = async () => {
+    if (!dataStore.account || dataStore.agents.length == 0) return;
+
+    const agents = await AccountContract.getAgents(dataStore.account);
+    if (agents) dataStore.setAccountAgents(agents);
+};
+
+const removeFromAccount = async (agent: AfterYieldAgent, e: any) => {
+    e.preventDefault();
+
+    if (removingAgent.value) return;
+    removingAgent.value = agent.address;
+
+    if (dataStore.account == zeroAddress) {
+        return router.push('/account');
+    }
+
+    const txHash = await AccountContract.removeAgents(dataStore.account, [agent.address]);
+
+    if (txHash) {
+        notify.push({
+            title: 'Agent removed from account',
+            description: 'Transaction sent',
+            category: 'success'
+        });
+
+        getAccountAgents();
+    }
+    else {
+        notify.push({
+            title: 'Failed to remove agent',
+            description: 'Transaction failed',
+            category: 'error'
+        });
+    }
+
+    removingAgent.value = null;
+};
 
 const addToAccount = async (agent: AfterYieldAgent, e: any) => {
     e.preventDefault();
@@ -61,6 +100,8 @@ const addToAccount = async (agent: AfterYieldAgent, e: any) => {
             description: 'Transaction sent',
             category: 'success'
         });
+
+        getAccountAgents();
     }
     else {
         notify.push({
@@ -160,8 +201,15 @@ onUnmounted(() => {
                                     <i v-else class="fi fi-rs-play"></i>
                                     Bio
                                 </button>
-                                <button class="use" @click="addToAccount(agent, $event)">{{
-                                    addingAgent == agent.address ? 'Adding' : 'Add to account' }}</button>
+
+                                <button
+                                    v-if="dataStore.accountAgents.find(a => a.address === agent.address) == undefined"
+                                    class="use" @click="addToAccount(agent, $event)">{{
+                                        addingAgent == agent.address ? 'Adding' : 'Add to account' }}</button>
+
+                                <button v-else class="use" @click="removeFromAccount(agent, $event)">{{
+                                    removingAgent == agent.address ? 'Removing' : 'Remove from account' }}</button>
+
                                 <div class="star"><i class="fi fi-rs-star"></i></div>
                             </div>
                         </div>
@@ -271,7 +319,7 @@ onUnmounted(() => {
     color: var(--tx-semi);
     font-size: 14px;
     margin: 8px 0;
-    max-width: 350px;
+    max-width: 340px;
     overflow: hidden;
     text-overflow: ellipsis;
     text-wrap: nowrap;
@@ -351,6 +399,7 @@ onUnmounted(() => {
 
 
 .use {
+    min-width: 200px;
     padding: 0 20px;
     height: 50px;
     background: var(--primary-light);

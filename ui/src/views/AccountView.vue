@@ -1,14 +1,19 @@
 <script setup lang="ts">
 import AccountSetup from '@/components/AccountSetup.vue';
 import AllAssets from '@/components/AllAssets.vue';
-import { getToken, getTokens } from '@/scripts/constants';
+import { getTokens } from '@/scripts/constants';
 import ReceiveToken from '@/components/ReceiveToken.vue';
 import { useBalanceStore } from '@/stores/balance';
 import { useDataStore } from '@/stores/data';
 import { useWalletStore } from '@/stores/wallet';
 import { zeroAddress } from 'viem';
 import { ref } from 'vue';
+import type { AfterYieldAgent } from '@/scripts/types';
+import { useRouter } from 'vue-router';
+import { AccountContract } from '@/scripts/contracts';
+import { notify } from '@/reactives/notify';
 
+const router = useRouter();
 const dataStore = useDataStore();
 const walletStore = useWalletStore();
 const balanceStore = useBalanceStore();
@@ -16,6 +21,47 @@ const balanceStore = useBalanceStore();
 const receiveToken = ref(false);
 const allAssets = ref(false);
 const progress = ref(false);
+
+const removingAgent = ref(false);
+
+const getAccountAgents = async () => {
+    if (!dataStore.account || dataStore.agents.length == 0) return;
+
+    const agents = await AccountContract.getAgents(dataStore.account);
+    if (agents) dataStore.setAccountAgents(agents);
+};
+
+const removeFromAccount = async (agent: AfterYieldAgent, e: any) => {
+    e.preventDefault();
+
+    if (removingAgent.value) return;
+    removingAgent.value = true;
+
+    if (dataStore.account == zeroAddress) {
+        return router.push('/account');
+    }
+
+    const txHash = await AccountContract.removeAgents(dataStore.account, [agent.address]);
+
+    if (txHash) {
+        notify.push({
+            title: 'Agent removed from account',
+            description: 'Transaction sent',
+            category: 'success'
+        });
+
+        getAccountAgents();
+    }
+    else {
+        notify.push({
+            title: 'Failed to remove agent',
+            description: 'Transaction failed',
+            category: 'error'
+        });
+    }
+
+    removingAgent.value = false;
+};
 </script>
 
 <template>
@@ -86,11 +132,13 @@ const progress = ref(false);
                 <div class="assets_head">
                     <p>My agents</p>
 
-                    <div class="dropdown" @click="allAssets = true">
-                        <div class="dropdown_item">
-                            <p>All agents</p>
-                            <i class="fi fi-rs-chevron-right"></i>
-                        </div>
+                    <div class="dropdown">
+                        <RouterLink to="/agents">
+                            <div class="dropdown_item">
+                                <p>All agents</p>
+                                <i class="fi fi-rs-chevron-right"></i>
+                            </div>
+                        </RouterLink>
                     </div>
                 </div>
 
@@ -107,8 +155,10 @@ const progress = ref(false);
                         </div>
 
                         <div class="price">
-                            <button>Edit capabilities</button>
-                            <button>Remove from account</button>
+                            <button class="use">Edit capabilities</button>
+                            <button class="use" @click="removeFromAccount(agent, $event)">
+                                {{ removingAgent ? 'Removing' : 'Remove from account' }}
+                            </button>
                         </div>
                     </div>
                 </RouterLink>
@@ -136,7 +186,7 @@ const progress = ref(false);
                         <td>Type</td>
                         <td>Time</td>
                         <td>Status</td>
-                        <td>Signers</td>
+                        <td>Initiator</td>
                         <td>Amount</td>
                         <td></td>
                     </tr>
@@ -180,7 +230,6 @@ const progress = ref(false);
                         </td>
 
                         <td>
-
                             <div class="status">
                                 <CompletedIcon />
                                 <p>Completed</p>
@@ -195,25 +244,15 @@ const progress = ref(false);
 
                                 </div>
 
-                                <div class=" progress">
-                                    <div class="bar" :style="`width: ${0.5}) * 100}%`">
-                                    </div>
-
+                                <div class="progress">
+                                    <div class="bar" :style="`width: ${0.5}) * 100}%`"></div>
                                 </div>
                             </div>
                         </td>
 
                         <td>
                             <div class="amount">
-                                <p>
-                                    {{
-                                        0
-                                    }}
-                                    <span>{{ 'LINK' }}</span>
-                                </p>
-
-
-
+                                <p>{{ 0 }} <span>{{ 'LINK' }}</span></p>
                             </div>
                         </td>
 
@@ -276,7 +315,7 @@ const progress = ref(false);
     display: flex;
     align-items: center;
     gap: 14px;
-    width: 150px;
+    width: 120px;
 }
 
 .top_asset .info img {
@@ -304,12 +343,29 @@ const progress = ref(false);
     font-size: 14px;
 }
 
+
+
 .top_asset .price {
-    width: 150px;
     display: flex;
     align-items: center;
     justify-content: flex-end;
     gap: 10px;
+}
+
+.top_asset .use {
+    min-width: 150px;
+    padding: 0 20px;
+    height: 50px;
+    background: var(--primary-light);
+    border-radius: 50px;
+    border: none;
+    font-size: 14px;
+    color: var(--bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    cursor: pointer;
 }
 
 .top_asset .price p {

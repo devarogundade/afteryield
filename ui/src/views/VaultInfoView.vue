@@ -329,7 +329,7 @@ onMounted(() => {
                     <div class="agent_head">
                         <h3>Agent</h3>
 
-                        <RouterLink to="/agents/0x1111">
+                        <RouterLink :to="`/agents/${agent.address}`">
                             <button>View agent</button>
                         </RouterLink>
                     </div>

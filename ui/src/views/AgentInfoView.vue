@@ -1,15 +1,23 @@
 <script setup lang="ts">
+import { notify } from '@/reactives/notify';
 import { Clients } from '@/scripts/clients';
+import { AccountContract } from '@/scripts/contracts';
 import type { AfterYieldAgent } from '@/scripts/types';
-import type { Hex } from 'viem';
+import { useDataStore } from '@/stores/data';
+import { zeroAddress, type Hex } from 'viem';
 import { onMounted, ref, onUnmounted } from 'vue';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 
 const route = useRoute();
+const router = useRouter();
+const dataStore = useDataStore();
 const agent = ref<AfterYieldAgent | undefined>(undefined);
 
 const currentAudio = ref<HTMLAudioElement | null>(null);
 const currentlyPlayingAgent = ref<string | null>(null);
+
+const addingAgent = ref(false);
+const removingAgent = ref(false);
 
 const pauseOrBioAudio = (agent: AfterYieldAgent, e: any) => {
     e.preventDefault();
@@ -39,7 +47,72 @@ const pauseOrBioAudio = (agent: AfterYieldAgent, e: any) => {
     };
 };
 
-const addToAccount = (agent: AfterYieldAgent) => { };
+const getAccountAgents = async () => {
+    if (!dataStore.account || dataStore.agents.length == 0) return;
+
+    const agents = await AccountContract.getAgents(dataStore.account);
+    if (agents) dataStore.setAccountAgents(agents);
+};
+
+const addToAccount = async (agent: AfterYieldAgent) => {
+    if (addingAgent.value) return;
+    addingAgent.value = true;
+
+    if (dataStore.account == zeroAddress) {
+        return router.push('/account');;
+    }
+
+    const txHash = await AccountContract.addAgents(dataStore.account, [agent.address]);
+
+    if (txHash) {
+        notify.push({
+            title: 'Agent added to account',
+            description: 'Transaction sent',
+            category: 'success'
+        });
+
+        getAccountAgents();
+    }
+    else {
+        notify.push({
+            title: 'Failed to add agent',
+            description: 'Transaction failed',
+            category: 'error'
+        });
+    }
+
+    addingAgent.value = false;
+};
+
+const removeFromAccount = async (agent: AfterYieldAgent) => {
+    if (removingAgent.value) return;
+    removingAgent.value = true;
+
+    if (dataStore.account == zeroAddress) {
+        return router.push('/account');
+    }
+
+    const txHash = await AccountContract.removeAgents(dataStore.account, [agent.address]);
+
+    if (txHash) {
+        notify.push({
+            title: 'Agent removed from account',
+            description: 'Transaction sent',
+            category: 'success'
+        });
+
+        getAccountAgents();
+    }
+    else {
+        notify.push({
+            title: 'Failed to remove agent',
+            description: 'Transaction failed',
+            category: 'error'
+        });
+    }
+
+    removingAgent.value = false;
+};
 
 const getAgent = async (address: Hex) => {
     agent.value = await Clients.getAgent(address);
@@ -86,7 +159,14 @@ onMounted(() => {
                             <i v-else class="fi fi-rs-play"></i>
                             Bio
                         </button>
-                        <button class="use" @click="addToAccount(agent)">Add to account</button>
+
+                        <button v-if="dataStore.accountAgents.find(a => a.address === agent?.address) == undefined"
+                            class="use" @click="addToAccount(agent)">{{
+                                addingAgent ? 'Adding' : 'Add to account' }}</button>
+
+                        <button v-else class="use" @click="removeFromAccount(agent)">{{
+                            removingAgent ? 'Removing' : 'Remove from account' }}</button>
+
                         <div class="star"><i class="fi fi-rs-star"></i></div>
                     </div>
 

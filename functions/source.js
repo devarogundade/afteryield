@@ -5,11 +5,11 @@ const url = `https://afteryield.onrender.com/task?agentAddress=${agentAddress}&t
 
 const resp = await Functions.makeHttpRequest({
   url,
-  method: "POST"
+  method: "GET"
 });
 
 if (resp.error) {
   throw Error(`HTTP error: ${resp.message || resp.response}`);
 }
 
-return Functions.encodeString(resp.data);
+return Functions.encodeString(resp.data.text);

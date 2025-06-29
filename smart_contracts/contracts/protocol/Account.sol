@@ -103,6 +103,12 @@ contract Account is IAccount, Ownable {
         agents = _agents;
     }
 
+    function getModeFor(
+        address vault
+    ) external view returns (Enums.AutoPilotMode mode) {
+        mode = _vaultModes[vault];
+    }
+
     function checkIsAgent(IAgent agent) external view returns (bool isAgent) {
         isAgent = _isAgent(agent);
     }

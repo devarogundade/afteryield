@@ -4,6 +4,7 @@ import AgentsView from "@/views/AgentsView.vue";
 import AgentInfoView from "@/views/AgentInfoView.vue";
 import VaultInfoView from "@/views/VaultInfoView.vue";
 import AccountView from "@/views/AccountView.vue";
+import GovernanceView from "@/views/GovernanceView.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -33,6 +34,11 @@ const router = createRouter({
       path: "/agents/:id",
       name: "agents-agent",
       component: AgentInfoView,
+    },
+    {
+      path: "/governance",
+      name: "governance",
+      component: GovernanceView,
     },
   ],
 });

@@ -17,13 +17,13 @@ const Tabs = ref([{
     path: '/agents',
     name: 'Agents'
 }, {
-    routeName: 'governance',
-    path: '/governance',
-    name: 'Governance'
-}, {
     routeName: 'account',
     path: '/account',
     name: 'Account'
+}, {
+    routeName: 'governance',
+    path: '/governance',
+    name: 'Governance'
 }]);
 
 
@@ -78,7 +78,7 @@ onMounted(() => {
                 <div class="actions">
                     <button class="connect" @click="modal.open()">{{
                         walletStore.address ? Converter.fineAddress(walletStore.address, 5) : 'Connect Wallet'
-                        }}</button>
+                    }}</button>
                 </div>
             </header>
         </div>

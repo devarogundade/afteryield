@@ -23,6 +23,10 @@ interface IAccount {
 
     function getAgents() external view returns (IAgent[] memory agents);
 
+    function getModeFor(
+        address vault
+    ) external view returns (Enums.AutoPilotMode mode);
+
     function checkIsAgent(IAgent agent) external view returns (bool isAgent);
 
     function getOwner() external view returns (address account);

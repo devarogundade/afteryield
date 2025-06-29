@@ -1,6 +1,11 @@
 import { zeroAddress, type Hex } from "viem";
 import { defineStore } from "pinia";
-import type { AfterYieldAgent, StrategyInfo, VaultInfo } from "@/scripts/types";
+import type {
+  AfterYieldAgent,
+  AutoPilotMode,
+  StrategyInfo,
+  VaultInfo,
+} from "@/scripts/types";
 
 export const useDataStore = defineStore("data", {
   state: () => ({
@@ -9,6 +14,7 @@ export const useDataStore = defineStore("data", {
     strategies: [] as StrategyInfo[],
     account: zeroAddress as Hex,
     accountAgents: [] as AfterYieldAgent[],
+    modes: {} as { [key: string]: AutoPilotMode },
   }),
   actions: {
     setVaults(newVaults: VaultInfo[]) {
@@ -27,6 +33,9 @@ export const useDataStore = defineStore("data", {
       this.accountAgents = this.agents.filter((agent) =>
         newAgents.includes(agent.address)
       );
+    },
+    setMode(vaultAddress: Hex, newMode: AutoPilotMode) {
+      this.modes[vaultAddress] = newMode;
     },
   },
 });

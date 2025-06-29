@@ -6,7 +6,7 @@ import {
   waitForTransactionReceipt,
   writeContract,
 } from "@wagmi/core";
-import type { ApprovalFlag, AutoPilotMode } from "./types";
+import { ApprovalFlag, AutoPilotMode } from "./types";
 import { accountABI } from "@/abis/account";
 import { vaultABI } from "@/abis/vault";
 import { accountFactoryABI } from "@/abis/account-factory";
@@ -228,6 +228,21 @@ const AccountContract = {
       })) as any;
     } catch (error) {
       return null;
+    }
+  },
+  async getModeFor(
+    accountAddress: Hex,
+    vaultAddress: Hex
+  ): Promise<AutoPilotMode> {
+    try {
+      return (await readContract(config, {
+        abi: accountABI,
+        address: accountAddress,
+        functionName: "getModeFor",
+        args: [vaultAddress],
+      })) as AutoPilotMode;
+    } catch (error) {
+      return AutoPilotMode.Off;
     }
   },
 

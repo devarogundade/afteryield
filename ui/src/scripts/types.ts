@@ -159,7 +159,7 @@ type ChartData = {
   pl: number;
 };
 
-export type {
+export {
   Trait,
   Gender,
   ApprovalFlag,

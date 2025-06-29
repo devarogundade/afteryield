@@ -4,14 +4,14 @@ import ProgressBox from '@/components/ProgressBox.vue';
 import { notify } from '@/reactives/notify';
 import { Clients } from '@/scripts/clients';
 import { getTokens } from '@/scripts/constants';
-import { VaultContract } from '@/scripts/contracts';
+import { AccountContract, VaultContract } from '@/scripts/contracts';
 import Converter from '@/scripts/converter';
 import { TokenContract } from '@/scripts/erc20';
-import type { AfterYieldAgent, ChartData, VaultInfo } from '@/scripts/types';
+import { AfterYieldAgent, AutoPilotMode, ChartData, VaultInfo } from '@/scripts/types';
 import { useBalanceStore } from '@/stores/balance';
 import { useDataStore } from '@/stores/data';
 import { useWalletStore } from '@/stores/wallet';
-import { formatUnits, parseEther, parseUnits, type Hex } from 'viem';
+import { formatUnits, parseEther, parseUnits, zeroAddress, type Hex } from 'viem';
 import { computed, onMounted, ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
 
@@ -77,7 +77,23 @@ const chartData = ref<ChartData[]>([{
 },
 ]);
 
-const setModeFor = async () => { };
+const mode = ref<AutoPilotMode>(AutoPilotMode.Off);
+
+const getMode = async () => {
+    if (!vault.value) return;
+    dataStore.setMode(vault.value.address, await AccountContract.getModeFor(dataStore.account, vault.value.address));
+};
+
+const setModeFor = async () => {
+    if (!vault.value) return;
+    if (!walletStore.address || dataStore.account == zeroAddress) return;
+
+    const txHash = await AccountContract.setModeFor(dataStore.account, vault.value.address, mode.value == AutoPilotMode.Off ? AutoPilotMode.On : AutoPilotMode.Off);
+
+    if (txHash) {
+        getMode();
+    } else { }
+};
 
 const isDeposit = ref(true);
 
@@ -162,6 +178,8 @@ const deposit = async () => {
 
         getUserVaultTokenBalances();
         getUserTokenBalances();
+
+        amount.value = 0;
     } else {
         notify.push({
             title: 'Token deposit failed',
@@ -182,25 +200,9 @@ const withdraw = async () => {
         return;
     }
 
-    const approvalTxHash = await TokenContract.approve(
-        vault.value.address,
-        vault.value.address,
-        parseEther(amount.value.toString())
-    );
-
-    if (!approvalTxHash) {
-        notify.push({
-            title: 'LP token approval failed',
-            description: 'Transaction failed',
-            category: 'error'
-        });
-        withdrawing.value = false;
-        return;
-    }
-
     const txHash = await VaultContract.withdraw(
         vault.value.address,
-        parseEther(amount.value.toString())
+        parseUnits(amount.value.toString(), vault.value.asset.decimals)
     );
 
     if (txHash) {
@@ -363,7 +365,7 @@ onMounted(() => {
 
                         <p class="balance">LP Bal: {{ Converter.toMoney(balanceStore.userBalances[vault.address]) }}</p>
 
-                        <button @click="withdraw">{{ withdrawing ? 'Withdrawing' : 'Approve & Withdraw' }}</button>
+                        <button @click="withdraw">{{ withdrawing ? 'Withdrawing' : 'Withdraw' }}</button>
                     </div>
                 </div>
 

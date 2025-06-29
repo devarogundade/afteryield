@@ -183,9 +183,12 @@ onUnmounted(() => {
                                     <p>{{ agent.vaults.length }}</p>
                                 </div>
 
-                                <div class="stat" v-tooltip:top="`Chainlink functions and automation.`">
+                                <div class="stat" v-tooltip:top="`ElizaOS, Chainlink functions and automation.`">
                                     <h3>Services</h3>
-                                    <img src="/images/chainlink.png" alt="chainlink">
+                                    <div class="images">
+                                        <img src="/images/chainlink.png" alt="chainlink">
+                                        <img src="/images/elizaos.png" alt="elizaos">
+                                    </div>
                                 </div>
 
                                 <div class="stat">
@@ -350,6 +353,12 @@ onUnmounted(() => {
 
 .stat {
     min-width: 90px;
+}
+
+.images {
+    display: flex;
+    align-items: center;
+    gap: 4px;
 }
 
 .stat h3 {

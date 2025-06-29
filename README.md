@@ -44,7 +44,7 @@ A **Strategy** is a modular logic unit built to maximize yield from specific DeF
 An **Agent** orchestrates Vaults and their Strategies. It can also manage a user's Account, but **only with explicit approval from the account owner**. Agents think, plan, and act autonomously through AI-powered reasoning integrated with Chainlink Functions and ElizaOS.
 
 [View in code](https://github.com/devarogundade/afteryield/tree/main/smart_contracts/contracts/Agent.sol)
-
+[ElizaOS Agents](https://github.com/devarogundade/afteryield/blob/main/elizaos-agents/src/constants/agent.ts)
 ---
 
 ## **Account**

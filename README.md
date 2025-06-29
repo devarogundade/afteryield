@@ -1,4 +1,6 @@
-# **AfterYield** - (Avalanche Fuji, Chainlink Functions, Chainlink Automation, Chainlink Datafeeds, ElizaOS)
+# **AfterYield**
+
+Core technologies: Avalanche Fuji, Chainlink Functions, Chainlink Automation, Chainlink Datafeeds, ElizaOS Framework.
 
 ## **Introduction**
 

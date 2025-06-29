@@ -33,7 +33,7 @@ Agents are granted **explicit permission** to:
 
 This permissioned structure ensures secure delegation of control, enabling agents to execute intelligent capital strategies while preserving user sovereignty.
 
-#### **Afteryield ElizaOS Agent Postman JSON**
+#### **Afteryield ElizaOS Agents Postman JSON**
 
 ```json
 {

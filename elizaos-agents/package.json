@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "echo \" no build scripts \" && exit 1",
+    "build": "echo \" no build scripts \"",
     "dev": "tsx main.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

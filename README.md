@@ -1,4 +1,4 @@
-# **AfterYield** - Deployed on Avalanche Fuji
+# **AfterYield** - (Avalanche Fuji, Chainlink Functions, Chainlink Automation, Chainlink Datafeeds, ElizaOS)
 
 ## **Introduction**
 

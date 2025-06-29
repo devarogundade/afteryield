@@ -28,8 +28,7 @@ AfterYield ElizaOS Agents is deployed at https://afteryield.onrender.com
 
 A **Vault** manages capital allocations and DeFi strategies. It serves as the execution layer for automated investment decisions, rebalancing funds based on agent instructions.
 
-[View in code](https://github.com/devarogundade/afteryield/tree/main/smart_contracts/contracts/VaultUpgradeable.sol)
-[Mock Vault](https://github.com/devarogundade/afteryield/tree/main/smart_contracts/contracts/mocks/SimpleVault.sol)
+[View in code](https://github.com/devarogundade/afteryield/tree/main/smart_contracts/contracts/VaultUpgradeable.sol) | [Mock Vault](https://github.com/devarogundade/afteryield/tree/main/smart_contracts/contracts/mocks/SimpleVault.sol)
 
 ---
 
@@ -53,8 +52,9 @@ An **Agent** orchestrates Vaults and their Strategies. It can also manage a user
 | **Lyra**  | Female | <img src="https://afteryield.netlify.app/images/agents/lyra.png" width="40" height="40" /> | [0x71978Be0373124afBC96329c84a892b21A607c36](https://testnet.snowtrace.io/address/0x71978Be0373124afBC96329c84a892b21A607c36/contract/43113/code) |
 | **Echo**  | Other | <img src="https://afteryield.netlify.app/images/agents/echo.png" width="40" height="40" /> | [0xbFCFE80Aa7798f90b49a1448f9De8226489DB892](https://testnet.snowtrace.io/address/0xbFCFE80Aa7798f90b49a1448f9De8226489DB892/contract/43113/code) |
 
-[View in code](https://github.com/devarogundade/afteryield/tree/main/smart_contracts/contracts/Agent.sol)
-[ElizaOS Agents](https://github.com/devarogundade/afteryield/blob/main/elizaos-agents/src/constants/agent.ts)
+
+[View in code](https://github.com/devarogundade/afteryield/tree/main/smart_contracts/contracts/Agent.sol) | [ElizaOS Agents](https://github.com/devarogundade/afteryield/blob/main/elizaos-agents/src/constants/agent.ts)
+
 ---
 
 ## **Account**

@@ -1,4 +1,5 @@
 import { createPublicClient, createWalletClient, http } from "viem";
+import { mnemonicToAccount } from "viem/accounts";
 import { avalancheFuji } from "viem/chains";
 
 const publicClient = createPublicClient({
@@ -7,7 +8,7 @@ const publicClient = createPublicClient({
 });
 
 const walletClient = createWalletClient({
-  account: "0x",
+  account: mnemonicToAccount(process.env.MNEMONIC!),
   chain: avalancheFuji,
   transport: http(),
 });

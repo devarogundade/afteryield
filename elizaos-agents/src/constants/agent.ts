@@ -5,7 +5,7 @@ const AGENTS: AfterYieldAgent[] = [
   {
     id: crypto.randomUUID(),
     name: "Atlas",
-    plugins: ["@elizaos/plugin-anthropic"],
+    plugins: ["@elizaos/plugin-anthropic", "@elizaos/plugin-sql"],
     image: "/images/agents/atlas.png",
     bio: [
       "Capital preservation is the name of the game. Atlas plays it safe, stacking yield with minimal risk.",
@@ -74,7 +74,7 @@ const AGENTS: AfterYieldAgent[] = [
   {
     id: crypto.randomUUID(),
     name: "Nova",
-    plugins: ["@elizaos/plugin-openai"],
+    plugins: ["@elizaos/plugin-openai", "@elizaos/plugin-sql"],
     image: "/images/agents/nova.png",
     bio: [
       "Nova is a high-voltage strategist constantly scanning for the next juicy APY.",
@@ -143,7 +143,7 @@ const AGENTS: AfterYieldAgent[] = [
   {
     id: crypto.randomUUID(),
     name: "Orion",
-    plugins: ["@elizaos/plugin-openai"],
+    plugins: ["@elizaos/plugin-openai", "@elizaos/plugin-sql"],
     image: "/images/agents/orion.png",
     bio: [
       "Orion seeks the golden middle — blending stable returns with exposure to growth.",
@@ -211,7 +211,7 @@ const AGENTS: AfterYieldAgent[] = [
   {
     id: crypto.randomUUID(),
     name: "Lyra",
-    plugins: ["@elizaos/plugin-anthropic"],
+    plugins: ["@elizaos/plugin-anthropic", "@elizaos/plugin-sql"],
     image: "/images/agents/lyra.png",
     bio: [
       "Lyra allocates with purpose — every protocol she supports aligns with ESG values.",
@@ -279,7 +279,7 @@ const AGENTS: AfterYieldAgent[] = [
   {
     id: crypto.randomUUID(),
     name: "Echo",
-    plugins: ["@elizaos/plugin-openai"],
+    plugins: ["@elizaos/plugin-openai", "@elizaos/plugin-sql"],
     image: "/images/agents/echo.png",
     bio: [
       "Echo adapts in real-time — syncing with market sentiment and user signals.",

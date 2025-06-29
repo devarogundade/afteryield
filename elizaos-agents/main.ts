@@ -2,13 +2,15 @@ import express from "express";
 import { zeroHash } from "viem";
 import cors from "cors";
 import { AgentRuntime, Memory } from "@elizaos/core";
+import dotenv from "dotenv";
 
 import { AGENTS } from "./src/constants/agent";
 import { AppService } from "./src/app.service";
 import { StrategyPlugin } from "./src/plugins/strategy";
 import { VaultPlugin } from "./src/plugins/vault";
 import { AccountPlugin } from "./src/plugins/account";
-import SQLPlugin from "@elizaos/plugin-sql";
+
+dotenv.config();
 
 const app = express();
 app.use(cors());
@@ -55,9 +57,11 @@ app.post("/task", async (req: any, res: any) => {
   const character = AGENTS.find((agent) => agent.address === agentAddress);
   if (!character) return res.status(400).json({ error: "Agent not found" });
 
+  console.log(process.env.POSTGRES_URL);
+
   const agent = new AgentRuntime({
     character,
-    plugins: [AccountPlugin, VaultPlugin, StrategyPlugin, SQLPlugin],
+    plugins: [AccountPlugin, VaultPlugin, StrategyPlugin],
   });
 
   await agent.initialize();

@@ -22,6 +22,24 @@ AfterYield ElizaOS Agents is deployed at https://afteryield.onrender.com
 
 ---
 
+## **Vault**
+
+A **Vault** manages capital allocations and DeFi strategies. It serves as the execution layer for automated investment decisions, rebalancing funds based on agent instructions.
+
+---
+
+## **Strategy**
+
+A **Strategy** is a modular logic unit built to maximize yield from specific DeFi pools. Strategies can be added, updated, or removed from Vaults to optimize returns based on current market conditions.
+
+---
+
+## **Agent**
+
+An **Agent** orchestrates Vaults and their Strategies. It can also manage a user's Account, but **only with explicit approval from the account owner**. Agents think, plan, and act autonomously through AI-powered reasoning integrated with Chainlink Functions and ElizaOS.
+
+---
+
 ## **Account**
 
 The **Account** is a fully on-chain, user-controlled smart wallet. It allows users to maintain complete ownership of their assets while interacting with autonomous agents.

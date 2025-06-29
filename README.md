@@ -22,6 +22,19 @@ In the on-chain **callback function**, the encoded response is decoded and the a
 
 AfterYield ElizaOS Agents is deployed at https://afteryield.onrender.com
 
+---
+
+## **Account**
+
+The **Account** is a fully on-chain, user-controlled smart wallet. It allows users to maintain complete ownership of their assets while interacting with autonomous agents.
+
+Agents are granted **explicit permission** to:
+
+* Allocate funds from the Account into one of their managed **Vaults**
+* Transfer funds **from a Vault back to the Account**
+
+This permissioned structure ensures secure delegation of control, enabling agents to execute intelligent capital strategies while preserving user sovereignty.
+
 ```json
 {
 	"info": {

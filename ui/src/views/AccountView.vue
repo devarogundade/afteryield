@@ -174,7 +174,7 @@ const removeFromAccount = async (agent: AfterYieldAgent, e: any) => {
             <div class="title">
                 <div class="name">
                     <p>Activities</p>
-                    <p>{{ 12 }} <span>Total</span></p>
+                    <p>{{ 0 }} <span>Total</span></p>
                 </div>
 
                 <button class="filter">
@@ -196,7 +196,7 @@ const removeFromAccount = async (agent: AfterYieldAgent, e: any) => {
                 </thead>
 
                 <tbody>
-                    <tr v-for="activity, index in [1, 2, 3]" :key="index">
+                    <tr v-for="activity, index in []" :key="index">
                         <td>
                             <div class="product">
                                 <div class="product_info">

@@ -1,4 +1,4 @@
-# **AfterYield**
+# **AfterYield** - Deployed on Avalanche Fuji
 
 ## **Introduction**
 

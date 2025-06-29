@@ -8,6 +8,7 @@ import { AppService } from "./src/app.service";
 import { StrategyPlugin } from "./src/plugins/strategy";
 import { VaultPlugin } from "./src/plugins/vault";
 import { AccountPlugin } from "./src/plugins/account";
+import SQLPlugin from "@elizaos/plugin-sql";
 
 const app = express();
 app.use(cors());
@@ -49,17 +50,19 @@ app.post("/task", async (req: any, res: any) => {
   const agentAddress = req.query.agentAddress;
   const taskType = req.query.taskType;
 
+  console.log(agentAddress);
+
   const character = AGENTS.find((agent) => agent.address === agentAddress);
   if (!character) return res.status(400).json({ error: "Agent not found" });
 
   const agent = new AgentRuntime({
     character,
-    plugins: [AccountPlugin, VaultPlugin, StrategyPlugin],
+    plugins: [AccountPlugin, VaultPlugin, StrategyPlugin, SQLPlugin],
   });
 
   await agent.initialize();
 
-  const responses: Memory[] = [];
+  console.log("agent initialized");
 
   let text = "";
   if (taskType === 0) {
@@ -72,16 +75,18 @@ app.post("/task", async (req: any, res: any) => {
     text = "Would you like to reallocate for your strategies?, If yes do.";
   }
 
-  await agent.processActions(
-    {
-      roomId: "a-b-c-d-e",
-      entityId: "1-2-3-4-5",
-      content: {
-        text,
-      },
+  console.log("text", text);
+
+  const message: Memory = {
+    roomId: crypto.randomUUID(),
+    entityId: crypto.randomUUID(),
+    content: {
+      text,
     },
-    responses
-  );
+  };
+  const responses: Memory[] = [];
+
+  await agent.processActions(message, responses);
 
   console.log(responses);
 

@@ -31,7 +31,7 @@ const axis = ref<ChartAxis>({
 </script>
 
 <template>
-    <Chart :size="{ width: 800, height: 240 }" style="color: var(--tx-dimmed);" :data="(props.data as any)"
+    <Chart :size="{ width: 1200, height: 240 }" style="color: var(--tx-dimmed);" :data="(props.data as any)"
         :margin="margin" :direction="direction" :axis="axis">
 
         <template #layers>
@@ -41,7 +41,7 @@ const axis = ref<ChartAxis>({
                 stroke: 'var(--bg-darkest)'
             }" />
 
-            <Marker v-if="props.marker" :value="1000" label="Avg." color="var(--tx-dimmed)" :strokeWidth="1"
+            <Marker v-if="props.marker" :value="30" label="Avg." color="var(--tx-dimmed)" :strokeWidth="1"
                 strokeDasharray="6 6" />
 
             <defs>

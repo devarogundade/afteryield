@@ -3,6 +3,7 @@ import { VAULTS } from "./vault";
 
 const AGENTS: AfterYieldAgent[] = [
   {
+    id: crypto.randomUUID(),
     name: "Atlas",
     plugins: ["@elizaos/plugin-anthropic"],
     image: "/images/agents/atlas.png",
@@ -71,6 +72,7 @@ const AGENTS: AfterYieldAgent[] = [
     },
   },
   {
+    id: crypto.randomUUID(),
     name: "Nova",
     plugins: ["@elizaos/plugin-openai"],
     image: "/images/agents/nova.png",
@@ -139,6 +141,7 @@ const AGENTS: AfterYieldAgent[] = [
     },
   },
   {
+    id: crypto.randomUUID(),
     name: "Orion",
     plugins: ["@elizaos/plugin-openai"],
     image: "/images/agents/orion.png",
@@ -206,6 +209,7 @@ const AGENTS: AfterYieldAgent[] = [
     },
   },
   {
+    id: crypto.randomUUID(),
     name: "Lyra",
     plugins: ["@elizaos/plugin-anthropic"],
     image: "/images/agents/lyra.png",
@@ -273,6 +277,7 @@ const AGENTS: AfterYieldAgent[] = [
     },
   },
   {
+    id: crypto.randomUUID(),
     name: "Echo",
     plugins: ["@elizaos/plugin-openai"],
     image: "/images/agents/echo.png",

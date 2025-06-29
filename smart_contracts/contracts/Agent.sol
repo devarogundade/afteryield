@@ -31,12 +31,21 @@ contract Agent is IAgent, Ownable {
         _feeCollector = feeCollector;
     }
 
-    /// @dev Needs to protect upKeep function with rate-limit or controller only.
-    function upKeep(
+    /// @dev Needs to protect upKeep function with rate-limit.
+    function checkUpKeep(
+        bytes memory checkData
+    ) external returns (bool upkeepNeeded, bytes memory performData) {
+        (Enums.TaskType taskType, uint64 subscriptionId, uint32 gasLimit) = abi
+            .decode(checkData, (Enums.TaskType, uint64, uint32));
+
+        _doUpKeep(taskType, subscriptionId, gasLimit);
+    }
+
+    function _doUpKeep(
         Enums.TaskType taskType,
         uint64 subscriptionId,
         uint32 gasLimit
-    ) external returns (bytes32 requestId) {
+    ) internal returns (bytes32 requestId) {
         IAfterYieldFunctions functions = IAfterYieldFunctions(
             _provider.getAfterYieldFunctions()
         );

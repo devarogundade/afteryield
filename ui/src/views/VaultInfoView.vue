@@ -4,12 +4,13 @@ import { notify } from '@/reactives/notify';
 import { Clients } from '@/scripts/clients';
 import { getTokens } from '@/scripts/constants';
 import { VaultContract } from '@/scripts/contracts';
+import Converter from '@/scripts/converter';
 import { TokenContract } from '@/scripts/erc20';
 import type { AfterYieldAgent, ChartData, VaultInfo } from '@/scripts/types';
 import { useBalanceStore } from '@/stores/balance';
 import { useDataStore } from '@/stores/data';
 import { useWalletStore } from '@/stores/wallet';
-import { formatEther, formatUnits, parseEther, parseUnits, type Hex } from 'viem';
+import { formatUnits, parseEther, parseUnits, type Hex } from 'viem';
 import { computed, onMounted, ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
 
@@ -29,7 +30,53 @@ const tabs = ref({
     detail: 'asset' as 'asset' | 'platform' | 'rewards'
 });
 
-const chartData = ref<ChartData[]>([]);
+const chartData = ref<ChartData[]>([{
+    name: Intl.DateTimeFormat('en-US', {
+        minute: '2-digit',
+        hour: '2-digit'
+    }).format(new Date(Date.now() - 420000)),
+    pl: 63
+},
+{
+    name: Intl.DateTimeFormat('en-US', {
+        minute: '2-digit',
+        hour: '2-digit'
+    }).format(new Date(Date.now() - 380000)),
+    pl: 45
+}, {
+    name: Intl.DateTimeFormat('en-US', {
+        minute: '2-digit',
+        hour: '2-digit'
+    }).format(new Date(Date.now() - 310000)),
+    pl: 34
+}, {
+    name: Intl.DateTimeFormat('en-US', {
+        minute: '2-digit',
+        hour: '2-digit'
+    }).format(new Date(Date.now() - 240000)),
+    pl: 40
+}, {
+    name: Intl.DateTimeFormat('en-US', {
+        minute: '2-digit',
+        hour: '2-digit'
+    }).format(new Date(Date.now() - 200000)),
+    pl: 50
+}, {
+    name: Intl.DateTimeFormat('en-US', {
+        minute: '2-digit',
+        hour: '2-digit'
+    }).format(new Date(Date.now() - 100000)),
+    pl: 25
+}, {
+    name: Intl.DateTimeFormat('en-US', {
+        minute: '2-digit',
+        hour: '2-digit'
+    }).format(new Date()),
+    pl: 75
+},
+]);
+
+const setModeFor = async () => { };
 
 const isDeposit = ref(true);
 
@@ -202,7 +249,7 @@ onMounted(() => {
 
                 <div class="title_right">
                     <div class="actions">
-                        <button class="mode">Turn On Autopilot</button>
+                        <button class="mode" @click="setModeFor">Turn On Autopilot</button>
                         <div class="star"><i class="fi fi-rs-star"></i></div>
                     </div>
                 </div>
@@ -212,18 +259,28 @@ onMounted(() => {
                 <div class="stats">
                     <div class="stat">
                         <h3>TVL <i class="fi fi-rs-info"></i></h3>
-                        <p>$1,000</p>
-                        <span>$100,000</span>
+                        <p>{{vault.allSupportedStrategies.reduce((a, b) => a + b.tvl, 0)}} {{ vault.asset.symbol }}
+                        </p>
+                        <!-- <span>$100,000</span> -->
                     </div>
 
                     <div class="stat">
                         <h3>APY <i class="fi fi-rs-info"></i></h3>
-                        <p>20.34%</p>
+                        <p>{{
+                            (vault.allSupportedStrategies.reduce((a, b) => a + b.apy, 0) /
+                                vault.allSupportedStrategies.length
+                            ) / 100}}%
+                        </p>
                     </div>
 
                     <div class="stat">
                         <h3>Daily</h3>
-                        <p>0.2837%</p>
+                        <p>
+                            {{
+                                (vault.allSupportedStrategies.reduce((a, b) => a + b.dailyApy, 0) /
+                                    vault.allSupportedStrategies.length) / 100
+                            }}%
+                        </p>
                     </div>
 
                     <div class="stat">
@@ -235,7 +292,9 @@ onMounted(() => {
                 <div class="stats">
                     <div class="stat">
                         <h3>Your Deposit</h3>
-                        <p>0</p>
+                        <p>
+                            {{ Converter.toMoney(balanceStore.userBalances[vault.address]) }}
+                        </p>
                     </div>
 
                     <div class="stat">
@@ -258,9 +317,7 @@ onMounted(() => {
                     </div>
 
                     <div class="graph">
-                        <!-- <Chart :data="{
-
-                        }" /> -->
+                        <Chart :data="chartData" :marker="true" />
                     </div>
 
                     <div class="chart_info">
@@ -268,17 +325,13 @@ onMounted(() => {
                             <div class="average">
                                 <p>AVERAGE</p>
                             </div>
-
-                            <div class="average">
-                                <p>MOVING AVERAGE</p>
-                            </div>
                         </div>
 
                         <div class="timeranges">
-                            <button class="timerange">1D</button>
+                            <button class="timerange timerange_active">1D</button>
                             <button class="timerange">1W</button>
                             <button class="timerange">1M</button>
-                            <button class="timerange timerange_active">1Y</button>
+                            <button class="timerange">1Y</button>
                         </div>
                     </div>
                 </div>
@@ -295,9 +348,10 @@ onMounted(() => {
                             <div class="token">{{ vault.asset.symbol }}</div>
                         </div>
 
-                        <p class="balance">Bal: {{ balanceStore.userBalances[vault.asset.address] }}</p>
+                        <p class="balance">Bal: {{ Converter.toMoney(balanceStore.userBalances[vault.asset.address]) }}
+                        </p>
 
-                        <button @click="deposit">{{ depositing ? 'Depositing' : 'Deposit' }}</button>
+                        <button @click="deposit">{{ depositing ? 'Depositing' : 'Approve & Deposit' }}</button>
                     </div>
 
                     <div class="cash" v-else>
@@ -306,9 +360,9 @@ onMounted(() => {
                             <div class="token">{{ vault.asset.symbol }} LP</div>
                         </div>
 
-                        <p class="balance">LP Bal: {{ balanceStore.userBalances[vault.address] }}</p>
+                        <p class="balance">LP Bal: {{ Converter.toMoney(balanceStore.userBalances[vault.address]) }}</p>
 
-                        <button @click="withdraw">{{ withdrawing ? 'Withdrawing' : 'Withdraw' }}</button>
+                        <button @click="withdraw">{{ withdrawing ? 'Withdrawing' : 'Approve & Withdraw' }}</button>
                     </div>
                 </div>
 
@@ -617,7 +671,8 @@ onMounted(() => {
 }
 
 .graph {
-    height: 300px;
+    display: flex;
+    justify-content: center;
 }
 
 .chart_info {
@@ -632,6 +687,11 @@ onMounted(() => {
     display: flex;
     align-items: center;
     gap: 10px;
+}
+
+.average {
+    font-size: 12px;
+    color: var(--tx-dimmed);
 }
 
 .timeranges {

@@ -26,17 +26,24 @@ AfterYield ElizaOS Agents is deployed at https://afteryield.onrender.com
 
 A **Vault** manages capital allocations and DeFi strategies. It serves as the execution layer for automated investment decisions, rebalancing funds based on agent instructions.
 
+[View in code](https://github.com/devarogundade/afteryield/tree/main/smart_contracts/contracts/VaultUpgradeable.sol)
+[Mock Vault](https://github.com/devarogundade/afteryield/tree/main/smart_contracts/contracts/mocks/SimpleVault.sol)
+
 ---
 
 ## **Strategy**
 
 A **Strategy** is a modular logic unit built to maximize yield from specific DeFi pools. Strategies can be added, updated, or removed from Vaults to optimize returns based on current market conditions.
 
+[View in code](https://github.com/devarogundade/afteryield/tree/main/smart_contracts/contracts/strategies)
+
 ---
 
 ## **Agent**
 
 An **Agent** orchestrates Vaults and their Strategies. It can also manage a user's Account, but **only with explicit approval from the account owner**. Agents think, plan, and act autonomously through AI-powered reasoning integrated with Chainlink Functions and ElizaOS.
+
+[View in code](https://github.com/devarogundade/afteryield/tree/main/smart_contracts/contracts/Agent.sol)
 
 ---
 
@@ -50,6 +57,8 @@ Agents are granted **explicit permission** to:
 * Transfer funds **from a Vault back to the Account**
 
 This permissioned structure ensures secure delegation of control, enabling agents to execute intelligent capital strategies while preserving user sovereignty.
+
+[View in code](https://github.com/devarogundade/afteryield/tree/main/smart_contracts/contracts/protocol/AccountFactory.sol)
 
 #### **Afteryield ElizaOS Agents Postman JSON**
 

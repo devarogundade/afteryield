@@ -29,7 +29,7 @@
     "typescript": "^5.6.3"
   },
   "scripts": {
-    "dev:agents": "tsx main.ts",
+    "dev:agents": "npx tsx main.ts",
     "build:agents": "echo \"Built\"",
     "start": "elizaos start",
     "dev": "elizaos dev"

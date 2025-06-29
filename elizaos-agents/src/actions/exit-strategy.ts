@@ -44,23 +44,18 @@ export const exitStrategy: Action = {
       });
       return false;
     }
-    const [, vaultAddress, strategy] = m;
+    const [, vaultAddress, strategyToRemove] = m;
     const svc = runtime.getService(VaultService.serviceType) as VaultService;
 
-    let txHash: string | null = null;
-    try {
-      txHash = await svc.removeStrategy(vaultAddress as Hex, strategy as Hex);
-    } catch (err) {
-      //   runtime.log()
-    }
+    const bytesResponse = svc.removeStrategy(
+      vaultAddress as Hex,
+      strategyToRemove as Hex
+    );
 
-    const text = txHash
-      ? `Successfully exited strategy \`${strategy}\` from vault \`${vaultAddress}\`.\nTxHash: \`${txHash}\`.`
-      : `Failed to exit strategy \`${strategy}\` from vault \`${vaultAddress}\`.`;
-
+    const text = `Bytes response is ${bytesResponse}`;
     callback?.({
       text,
-      content: { vaultAddress, strategy, txHash },
+      content: { vaultAddress, strategyToRemove, bytesResponse },
     });
     return true;
   },

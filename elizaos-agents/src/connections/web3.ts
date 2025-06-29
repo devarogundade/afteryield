@@ -1,7 +1,12 @@
 import dotenv from "dotenv";
 dotenv.config();
 
-import { createPublicClient, createWalletClient, http } from "viem";
+import {
+  createPublicClient,
+  createWalletClient,
+  http,
+  type WalletClient,
+} from "viem";
 import { mnemonicToAccount } from "viem/accounts";
 import { avalancheFuji } from "viem/chains";
 
@@ -10,7 +15,7 @@ const publicClient = createPublicClient({
   transport: http(),
 });
 
-const walletClient = createWalletClient({
+const walletClient: WalletClient = createWalletClient({
   account: mnemonicToAccount(process.env.MNEMONIC!),
   chain: avalancheFuji,
   transport: http(),

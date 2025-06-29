@@ -1,33 +1,37 @@
 {
-  "name": "elizaos-agents",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "build": "echo \"no build scripts\"",
-    "dev": "npx tsx main.ts",
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "type": "commonjs",
+  "name": "elizaos_agents",
+  "description": "Afteryield ElizaOS Agents",
+  "version": "0.1.0",
+  "type": "module",
+  "main": "dist/main.js",
+  "module": "dist/main.js",
+  "types": "dist/index.d.ts",
+  "keywords": [
+    "project",
+    "elizaos"
+  ],
   "dependencies": {
-    "@elizaos/core": "^1.0.15",
-    "@elizaos/plugin-anthropic": "^1.0.3",
-    "@elizaos/plugin-openai": "^1.0.6",
-    "@elizaos/plugin-sql": "^1.0.15",
+    "@elizaos/cli": "latest",
+    "@elizaos/core": "latest",
+    "@elizaos/plugin-bootstrap": "1.0.15",
+    "@elizaos/plugin-openai": "1.0.6",
+    "@elizaos/plugin-sql": "latest",
+    "clsx": "^2.1.1",
     "cors": "^2.8.5",
     "dotenv": "^17.0.0",
     "express": "^5.1.0",
-    "tsc": "^2.0.4",
-    "tsx": "^4.20.3",
-    "typescript": "^5.8.3",
-    "uuid": "^11.1.0",
     "viem": "^2.31.4"
   },
   "devDependencies": {
-    "@types/cors": "^2.8.19",
-    "@types/express": "^5.0.3"
+    "@types/express": "^5.0.3",
+    "typescript": "^5.6.3"
+  },
+  "scripts": {
+    "dev:agents": "tsx main.ts",
+    "start": "elizaos start",
+    "dev": "elizaos dev"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

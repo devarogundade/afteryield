@@ -5,7 +5,39 @@ const AGENTS: AfterYieldAgent[] = [
   {
     id: crypto.randomUUID(),
     name: "Atlas",
-    plugins: ["@elizaos/plugin-anthropic", "@elizaos/plugin-sql"],
+    plugins: [
+      // Core plugins first
+      "@elizaos/plugin-sql",
+
+      // Text-only plugins (no embedding support)
+      ...(process.env.ANTHROPIC_API_KEY ? ["@elizaos/plugin-anthropic"] : []),
+      ...(process.env.OPENROUTER_API_KEY ? ["@elizaos/plugin-openrouter"] : []),
+
+      // Embedding-capable plugins last (lowest priority for embedding fallback)
+      ...(process.env.OPENAI_API_KEY ? ["@elizaos/plugin-openai"] : []),
+      ...(process.env.OLLAMA_API_ENDPOINT ? ["@elizaos/plugin-ollama"] : []),
+      ...(process.env.GOOGLE_GENERATIVE_AI_API_KEY
+        ? ["@elizaos/plugin-google-genai"]
+        : []),
+      ...(!process.env.GOOGLE_GENERATIVE_AI_API_KEY &&
+      !process.env.OLLAMA_API_ENDPOINT &&
+      !process.env.OPENAI_API_KEY
+        ? ["@elizaos/plugin-local-ai"]
+        : []),
+
+      // Platform plugins
+      ...(process.env.DISCORD_API_TOKEN ? ["@elizaos/plugin-discord"] : []),
+      ...(process.env.TWITTER_API_KEY &&
+      process.env.TWITTER_API_SECRET_KEY &&
+      process.env.TWITTER_ACCESS_TOKEN &&
+      process.env.TWITTER_ACCESS_TOKEN_SECRET
+        ? ["@elizaos/plugin-twitter"]
+        : []),
+      ...(process.env.TELEGRAM_BOT_TOKEN ? ["@elizaos/plugin-telegram"] : []),
+
+      // Bootstrap plugin
+      ...(!process.env.IGNORE_BOOTSTRAP ? ["@elizaos/plugin-bootstrap"] : []),
+    ],
     image: "/images/agents/atlas.png",
     bio: [
       "Capital preservation is the name of the game. Atlas plays it safe, stacking yield with minimal risk.",
@@ -74,7 +106,39 @@ const AGENTS: AfterYieldAgent[] = [
   {
     id: crypto.randomUUID(),
     name: "Nova",
-    plugins: ["@elizaos/plugin-openai", "@elizaos/plugin-sql"],
+    plugins: [
+      // Core plugins first
+      "@elizaos/plugin-sql",
+
+      // Text-only plugins (no embedding support)
+      ...(process.env.ANTHROPIC_API_KEY ? ["@elizaos/plugin-anthropic"] : []),
+      ...(process.env.OPENROUTER_API_KEY ? ["@elizaos/plugin-openrouter"] : []),
+
+      // Embedding-capable plugins last (lowest priority for embedding fallback)
+      ...(process.env.OPENAI_API_KEY ? ["@elizaos/plugin-openai"] : []),
+      ...(process.env.OLLAMA_API_ENDPOINT ? ["@elizaos/plugin-ollama"] : []),
+      ...(process.env.GOOGLE_GENERATIVE_AI_API_KEY
+        ? ["@elizaos/plugin-google-genai"]
+        : []),
+      ...(!process.env.GOOGLE_GENERATIVE_AI_API_KEY &&
+      !process.env.OLLAMA_API_ENDPOINT &&
+      !process.env.OPENAI_API_KEY
+        ? ["@elizaos/plugin-local-ai"]
+        : []),
+
+      // Platform plugins
+      ...(process.env.DISCORD_API_TOKEN ? ["@elizaos/plugin-discord"] : []),
+      ...(process.env.TWITTER_API_KEY &&
+      process.env.TWITTER_API_SECRET_KEY &&
+      process.env.TWITTER_ACCESS_TOKEN &&
+      process.env.TWITTER_ACCESS_TOKEN_SECRET
+        ? ["@elizaos/plugin-twitter"]
+        : []),
+      ...(process.env.TELEGRAM_BOT_TOKEN ? ["@elizaos/plugin-telegram"] : []),
+
+      // Bootstrap plugin
+      ...(!process.env.IGNORE_BOOTSTRAP ? ["@elizaos/plugin-bootstrap"] : []),
+    ],
     image: "/images/agents/nova.png",
     bio: [
       "Nova is a high-voltage strategist constantly scanning for the next juicy APY.",
@@ -143,7 +207,39 @@ const AGENTS: AfterYieldAgent[] = [
   {
     id: crypto.randomUUID(),
     name: "Orion",
-    plugins: ["@elizaos/plugin-openai", "@elizaos/plugin-sql"],
+    plugins: [
+      // Core plugins first
+      "@elizaos/plugin-sql",
+
+      // Text-only plugins (no embedding support)
+      ...(process.env.ANTHROPIC_API_KEY ? ["@elizaos/plugin-anthropic"] : []),
+      ...(process.env.OPENROUTER_API_KEY ? ["@elizaos/plugin-openrouter"] : []),
+
+      // Embedding-capable plugins last (lowest priority for embedding fallback)
+      ...(process.env.OPENAI_API_KEY ? ["@elizaos/plugin-openai"] : []),
+      ...(process.env.OLLAMA_API_ENDPOINT ? ["@elizaos/plugin-ollama"] : []),
+      ...(process.env.GOOGLE_GENERATIVE_AI_API_KEY
+        ? ["@elizaos/plugin-google-genai"]
+        : []),
+      ...(!process.env.GOOGLE_GENERATIVE_AI_API_KEY &&
+      !process.env.OLLAMA_API_ENDPOINT &&
+      !process.env.OPENAI_API_KEY
+        ? ["@elizaos/plugin-local-ai"]
+        : []),
+
+      // Platform plugins
+      ...(process.env.DISCORD_API_TOKEN ? ["@elizaos/plugin-discord"] : []),
+      ...(process.env.TWITTER_API_KEY &&
+      process.env.TWITTER_API_SECRET_KEY &&
+      process.env.TWITTER_ACCESS_TOKEN &&
+      process.env.TWITTER_ACCESS_TOKEN_SECRET
+        ? ["@elizaos/plugin-twitter"]
+        : []),
+      ...(process.env.TELEGRAM_BOT_TOKEN ? ["@elizaos/plugin-telegram"] : []),
+
+      // Bootstrap plugin
+      ...(!process.env.IGNORE_BOOTSTRAP ? ["@elizaos/plugin-bootstrap"] : []),
+    ],
     image: "/images/agents/orion.png",
     bio: [
       "Orion seeks the golden middle — blending stable returns with exposure to growth.",
@@ -211,7 +307,39 @@ const AGENTS: AfterYieldAgent[] = [
   {
     id: crypto.randomUUID(),
     name: "Lyra",
-    plugins: ["@elizaos/plugin-anthropic", "@elizaos/plugin-sql"],
+    plugins: [
+      // Core plugins first
+      "@elizaos/plugin-sql",
+
+      // Text-only plugins (no embedding support)
+      ...(process.env.ANTHROPIC_API_KEY ? ["@elizaos/plugin-anthropic"] : []),
+      ...(process.env.OPENROUTER_API_KEY ? ["@elizaos/plugin-openrouter"] : []),
+
+      // Embedding-capable plugins last (lowest priority for embedding fallback)
+      ...(process.env.OPENAI_API_KEY ? ["@elizaos/plugin-openai"] : []),
+      ...(process.env.OLLAMA_API_ENDPOINT ? ["@elizaos/plugin-ollama"] : []),
+      ...(process.env.GOOGLE_GENERATIVE_AI_API_KEY
+        ? ["@elizaos/plugin-google-genai"]
+        : []),
+      ...(!process.env.GOOGLE_GENERATIVE_AI_API_KEY &&
+      !process.env.OLLAMA_API_ENDPOINT &&
+      !process.env.OPENAI_API_KEY
+        ? ["@elizaos/plugin-local-ai"]
+        : []),
+
+      // Platform plugins
+      ...(process.env.DISCORD_API_TOKEN ? ["@elizaos/plugin-discord"] : []),
+      ...(process.env.TWITTER_API_KEY &&
+      process.env.TWITTER_API_SECRET_KEY &&
+      process.env.TWITTER_ACCESS_TOKEN &&
+      process.env.TWITTER_ACCESS_TOKEN_SECRET
+        ? ["@elizaos/plugin-twitter"]
+        : []),
+      ...(process.env.TELEGRAM_BOT_TOKEN ? ["@elizaos/plugin-telegram"] : []),
+
+      // Bootstrap plugin
+      ...(!process.env.IGNORE_BOOTSTRAP ? ["@elizaos/plugin-bootstrap"] : []),
+    ],
     image: "/images/agents/lyra.png",
     bio: [
       "Lyra allocates with purpose — every protocol she supports aligns with ESG values.",
@@ -279,7 +407,39 @@ const AGENTS: AfterYieldAgent[] = [
   {
     id: crypto.randomUUID(),
     name: "Echo",
-    plugins: ["@elizaos/plugin-openai", "@elizaos/plugin-sql"],
+    plugins: [
+      // Core plugins first
+      "@elizaos/plugin-sql",
+
+      // Text-only plugins (no embedding support)
+      ...(process.env.ANTHROPIC_API_KEY ? ["@elizaos/plugin-anthropic"] : []),
+      ...(process.env.OPENROUTER_API_KEY ? ["@elizaos/plugin-openrouter"] : []),
+
+      // Embedding-capable plugins last (lowest priority for embedding fallback)
+      ...(process.env.OPENAI_API_KEY ? ["@elizaos/plugin-openai"] : []),
+      ...(process.env.OLLAMA_API_ENDPOINT ? ["@elizaos/plugin-ollama"] : []),
+      ...(process.env.GOOGLE_GENERATIVE_AI_API_KEY
+        ? ["@elizaos/plugin-google-genai"]
+        : []),
+      ...(!process.env.GOOGLE_GENERATIVE_AI_API_KEY &&
+      !process.env.OLLAMA_API_ENDPOINT &&
+      !process.env.OPENAI_API_KEY
+        ? ["@elizaos/plugin-local-ai"]
+        : []),
+
+      // Platform plugins
+      ...(process.env.DISCORD_API_TOKEN ? ["@elizaos/plugin-discord"] : []),
+      ...(process.env.TWITTER_API_KEY &&
+      process.env.TWITTER_API_SECRET_KEY &&
+      process.env.TWITTER_ACCESS_TOKEN &&
+      process.env.TWITTER_ACCESS_TOKEN_SECRET
+        ? ["@elizaos/plugin-twitter"]
+        : []),
+      ...(process.env.TELEGRAM_BOT_TOKEN ? ["@elizaos/plugin-telegram"] : []),
+
+      // Bootstrap plugin
+      ...(!process.env.IGNORE_BOOTSTRAP ? ["@elizaos/plugin-bootstrap"] : []),
+    ],
     image: "/images/agents/echo.png",
     bio: [
       "Echo adapts in real-time — syncing with market sentiment and user signals.",

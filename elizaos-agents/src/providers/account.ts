@@ -9,7 +9,7 @@ export const AccountProvider: Provider = {
   position: 0,
   private: false,
 
-  async get(runtime: IAgentRuntime, message: Memory, state: State) {
+  async get(_runtime: IAgentRuntime, _message: Memory, state: State) {
     const userAddress = state.params?.userAddress as Hex | undefined;
     if (!userAddress) {
       return { values: { account: null }, text: "No user address provided." };

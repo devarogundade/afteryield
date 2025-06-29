@@ -2,16 +2,23 @@
 // Learn more about it at https://hardhat.org/ignition
 
 import { buildModule } from "@nomicfoundation/hardhat-ignition/modules";
+import fs from "fs";
+import path from "path";
 
 const AddressesProviderModule = buildModule("AddressesProviderModule", (m) => {
   const addressesProvider = m.contract("AddressesProvider");
 
+  const source = fs.readFileSync(
+    path.join(__dirname, "../../../functions/source.js"),
+    "utf8"
+  );
+
+  console.log(source);
+
   const afterYieldFunctions = m.contract("AfterYieldFunctions", [
     "0xA9d587a00A31A52Ed70D6026794a8FC5E2F5dCb0",
     "0x66756e2d6176616c616e6368652d66756a692d31000000000000000000000000",
-    `
-    return "Hello";
-    `,
+    source,
   ]);
   const afterYieldOracle = m.contract("AfterYieldOracle");
   const accountFactory = m.contract("AccountFactory");

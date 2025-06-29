@@ -48,22 +48,16 @@ export const reAllocateStrategy: Action = {
     const allocations = allocStr.split(",").map((s) => Number(s));
 
     const svc = runtime.getService(VaultService.serviceType) as VaultService;
-    let txHash: string | null = null;
-    try {
-      txHash = await svc.reallocate(vaultAddress as Hex, allocations);
-    } catch (err) {
-      //   runtime.log()
-    }
 
-    const text = txHash
-      ? `Successfully reallocated vault \`${vaultAddress}\`.\nNew allocations: [${allocations.join(
-          ", "
-        )}]\nTxHash: \`${txHash}\`.`
-      : `Reallocation failed for vault \`${vaultAddress}\`.`;
+    const bytesResponse = svc.reallocate(
+      vaultAddress as Hex,
+      allocations.map((allocation) => BigInt(allocation))
+    );
 
+    const text = `Bytes response is ${bytesResponse}`;
     callback?.({
       text,
-      content: { vaultAddress, allocations, txHash },
+      content: { vaultAddress, allocations, bytesResponse },
     });
     return true;
   },

@@ -15,21 +15,6 @@ class Strategy {
     this.strategyInfo = strategyInfo;
   }
 
-  async harvest(): Promise<Hex | null> {
-    try {
-      const result = await walletClient.writeContract({
-        address: this.strategyInfo.address,
-        abi: strategyABI,
-        functionName: "harvest",
-      });
-
-      return result as Hex;
-    } catch (error: any) {
-      console.log(error);
-      return null;
-    }
-  }
-
   async getVault(): Promise<Hex | null> {
     try {
       const result = await publicClient.readContract({

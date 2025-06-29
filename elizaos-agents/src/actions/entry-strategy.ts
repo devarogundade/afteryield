@@ -46,20 +46,15 @@ export const entryStrategy: Action = {
     const [, vaultAddress, newStrategy] = m;
     const svc = runtime.getService(VaultService.serviceType) as VaultService;
 
-    let txHash: string | null = null;
-    try {
-      txHash = await svc.addStrategy(vaultAddress as Hex, newStrategy as Hex);
-    } catch (err) {
-      //   runtime.log()
-    }
+    const bytesResponse = svc.addStrategy(
+      vaultAddress as Hex,
+      newStrategy as Hex
+    );
 
-    const text = txHash
-      ? `Successfully added strategy \`${newStrategy}\` to vault \`${vaultAddress}\`.\nTxHash: \`${txHash}\`.`
-      : `Failed to add strategy \`${newStrategy}\` to vault \`${vaultAddress}\`.`;
-
+    const text = `Bytes response is ${bytesResponse}`;
     callback?.({
       text,
-      content: { vaultAddress, newStrategy, txHash },
+      content: { vaultAddress, newStrategy, bytesResponse },
     });
     return true;
   },

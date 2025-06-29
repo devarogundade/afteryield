@@ -13,47 +13,24 @@ export class VaultService extends Service {
     Handles vault strategy reallocations.
     `;
 
-  async deposit(
-    vaultAddress: Hex,
-    amountScaled: bigint,
-    account: Hex
-  ): Promise<string | null> {
-    const vault = new Vault(vaultAddress);
-    const txHash = await vault.depositFromAccount(amountScaled, account);
-    return txHash || null;
+  deposit(vaultAddress: Hex, amountScaled: bigint, account: Hex): Hex {
+    return new Vault(vaultAddress).depositFromAccount(amountScaled, account);
   }
 
-  async withdraw(
-    vaultAddress: Hex,
-    lpAmount: bigint,
-    account: Hex
-  ): Promise<string | null> {
-    const vault = new Vault(vaultAddress);
-    return (await vault.withdrawToAccount(lpAmount, account)) || null;
+  withdraw(vaultAddress: Hex, lpAmount: bigint, account: Hex): Hex {
+    return new Vault(vaultAddress).withdrawFromAccount(lpAmount, account);
   }
 
-  async addStrategy(
-    vaultAddress: Hex,
-    newStrategy: Hex
-  ): Promise<string | null> {
-    const vault = new Vault(vaultAddress);
-    return (await vault.addStrategy(newStrategy)) || null;
+  addStrategy(vaultAddress: Hex, newStrategy: Hex): Hex {
+    return new Vault(vaultAddress).addStrategy(newStrategy);
   }
 
-  async removeStrategy(
-    vaultAddress: Hex,
-    strategyToRemove: Hex
-  ): Promise<string | null> {
-    const vault = new Vault(vaultAddress);
-    return (await vault.removeStrategy(strategyToRemove)) || null;
+  removeStrategy(vaultAddress: Hex, strategyToRemove: Hex): Hex {
+    return new Vault(vaultAddress).removeStrategy(strategyToRemove);
   }
 
-  async reallocate(
-    vaultAddress: Hex,
-    allocations: number[]
-  ): Promise<string | null> {
-    const vault = new Vault(vaultAddress);
-    return (await vault.reallocate(allocations)) || null;
+  reallocate(vaultAddress: Hex, allocations: bigint[]): Hex {
+    return new Vault(vaultAddress).reallocate(allocations);
   }
 
   async stop(): Promise<void> {}

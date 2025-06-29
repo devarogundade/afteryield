@@ -51,28 +51,21 @@ export const withdrawToAccount: Action = {
       });
       return false;
     }
+
     const [_, vaultAddress, lpStr, account] = m;
-    const lpAmount = BigInt(lpStr);
     const svc = runtime.getService(VaultService.serviceType) as VaultService;
 
-    let txHash: string | null = null;
-    try {
-      txHash = await svc.withdraw(
-        vaultAddress as Hex,
-        lpAmount,
-        account as Hex
-      );
-    } catch (err) {
-      // runtime.log()
-    }
+    const lpAmount = BigInt(lpStr);
+    const bytesResponse = svc.withdraw(
+      vaultAddress as Hex,
+      lpAmount,
+      account as Hex
+    );
 
-    const text = txHash
-      ? `Step success: Redeemed ${lpAmount} LP tokens from vault \`${vaultAddress}\`. Assets sent to: \`${account}\`. TxHash: \`${txHash}\`.`
-      : `Withdrawal failed. Vault: \`${vaultAddress}\`, Account: \`${account}\`.`;
-
+    const text = `Bytes response is ${bytesResponse}`;
     callback?.({
       text,
-      content: { vaultAddress, lpAmount, account, txHash },
+      content: { vaultAddress, lpAmount, account, bytesResponse },
     });
     return true;
   },

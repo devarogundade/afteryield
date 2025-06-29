@@ -11,13 +11,17 @@ import {IAddressesProvider} from "./interfaces/IAddressesProvider.sol";
 import {IAfterYieldFunctions} from "./interfaces/IAfterYieldFunctions.sol";
 import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol";
 import {IERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+import {AutomationCompatibleInterface} from "@chainlink/contracts/src/v0.8/automation/AutomationCompatible.sol";
 
-contract Agent is IAgent, Ownable {
+contract Agent is IAgent, Ownable, AutomationCompatibleInterface {
     uint256 internal _feePerTask;
     address internal _feeCollector;
     IERC20 internal _feeToken;
     IAddressesProvider internal _provider;
     mapping(IAccount => Enums.ApprovalFlag) internal _approvals;
+
+    uint256 public _lastTimeStamp;
+    uint256 public _interval = 14_000;
 
     constructor(
         uint256 feePerTask,
@@ -31,14 +35,28 @@ contract Agent is IAgent, Ownable {
         _feeCollector = feeCollector;
     }
 
-    /// @dev Needs to protect upKeep function with rate-limit.
-    function checkUpKeep(
-        bytes memory checkData
-    ) external returns (bool upkeepNeeded, bytes memory performData) {
-        (Enums.TaskType taskType, uint64 subscriptionId, uint32 gasLimit) = abi
-            .decode(checkData, (Enums.TaskType, uint64, uint32));
+    function checkUpkeep(
+        bytes calldata
+    )
+        external
+        view
+        override
+        returns (bool upkeepNeeded, bytes memory checkData)
+    {
+        upkeepNeeded = (block.timestamp - _lastTimeStamp) > _interval;
+        checkData = new bytes(0);
+    }
 
-        _doUpKeep(taskType, subscriptionId, gasLimit);
+    function performUpkeep(bytes calldata checkData) external override {
+        if ((block.timestamp - _lastTimeStamp) > _interval) {
+            (
+                Enums.TaskType taskType,
+                uint64 subscriptionId,
+                uint32 gasLimit
+            ) = abi.decode(checkData, (Enums.TaskType, uint64, uint32));
+
+            _doUpKeep(taskType, subscriptionId, gasLimit);
+        }
     }
 
     function _doUpKeep(
@@ -85,19 +103,21 @@ contract Agent is IAgent, Ownable {
     }
 
     function addStrategy(bytes memory response) external onlyFunctions {
-        (address vault, address strategy, uint256[] memory allocations) = abi
-            .decode(response, (address, address, uint256[]));
+        (address vault, address strategy) = abi.decode(
+            response,
+            (address, address)
+        );
 
         IVault(vault).addStrategy(IStrategy(strategy));
-        IVault(vault).reallocate(allocations);
     }
 
     function removeStrategy(bytes memory response) external onlyFunctions {
-        (address vault, address strategy, uint256[] memory allocations) = abi
-            .decode(response, (address, address, uint256[]));
+        (address vault, address strategy) = abi.decode(
+            response,
+            (address, address)
+        );
 
         IVault(vault).removeStrategy(IStrategy(strategy));
-        IVault(vault).reallocate(allocations);
     }
 
     function reallocation(bytes memory response) external onlyFunctions {

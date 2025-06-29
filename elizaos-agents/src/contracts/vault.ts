@@ -1,6 +1,6 @@
 import { publicClient, walletClient } from "../connections/web3";
 import { vaultABI } from "../abis/vault";
-import type { Hex } from "viem";
+import { encodeAbiParameters, type Hex } from "viem";
 import { VaultInfo } from "../types";
 import { VAULTS } from "../constants/vault";
 
@@ -13,91 +13,56 @@ class Vault {
     this.vaultInfo = vaultInfo;
   }
 
-  async depositFromAccount(
-    amountScaled: bigint,
-    account: Hex
-  ): Promise<Hex | null> {
-    try {
-      return await walletClient.writeContract({
-        address: this.vaultInfo.address,
-        abi: vaultABI,
-        functionName: "depositFromAccount",
-        args: [amountScaled, account],
-      });
-    } catch (error: any) {
-      console.log(error);
-      return null;
-    }
+  depositFromAccount(amountScaled: bigint, account: Hex): Hex {
+    return encodeAbiParameters(
+      [
+        { type: "address", name: "vault" },
+        { type: "uint256", name: "amountScaled" },
+        { type: "address", name: "account" },
+      ],
+      [this.vaultInfo.address, amountScaled, account]
+    );
   }
 
-  async withdrawToAccount(lpAmount: bigint, account: Hex): Promise<Hex | null> {
-    try {
-      return await walletClient.writeContract({
-        address: this.vaultInfo.address,
-        abi: vaultABI,
-        functionName: "withdrawToAccount",
-        args: [lpAmount, account],
-      });
-    } catch (error: any) {
-      console.log(error);
-      return null;
-    }
+  withdrawFromAccount(lpAmount: bigint, account: Hex): Hex {
+    return encodeAbiParameters(
+      [
+        { type: "address", name: "vault" },
+        { type: "uint256", name: "lpAmount" },
+        { type: "address", name: "account" },
+      ],
+      [this.vaultInfo.address, lpAmount, account]
+    );
   }
 
-  async withdrawAllToAccount(account: Hex): Promise<Hex | null> {
-    try {
-      return await walletClient.writeContract({
-        address: this.vaultInfo.address,
-        abi: vaultABI,
-        functionName: "withdrawAllToAccount",
-        args: [account],
-      });
-    } catch (error: any) {
-      console.log(error);
-      return null;
-    }
+  addStrategy(newStrategy: Hex): Hex {
+    return encodeAbiParameters(
+      [
+        { type: "address", name: "vault" },
+        { type: "address", name: "newStrategy" },
+      ],
+      [this.vaultInfo.address, newStrategy]
+    );
   }
 
-  async addStrategy(newStrategy: Hex): Promise<Hex | null> {
-    try {
-      return await walletClient.writeContract({
-        address: this.vaultInfo.address,
-        abi: vaultABI,
-        functionName: "addStrategy",
-        args: [newStrategy],
-      });
-    } catch (error: any) {
-      console.log(error);
-      return null;
-    }
+  removeStrategy(strategyToRemove: Hex): Hex {
+    return encodeAbiParameters(
+      [
+        { type: "address", name: "vault" },
+        { type: "address", name: "strategyToRemove" },
+      ],
+      [this.vaultInfo.address, strategyToRemove]
+    );
   }
 
-  async removeStrategy(strategyToRemove: Hex): Promise<Hex | null> {
-    try {
-      return await walletClient.writeContract({
-        address: this.vaultInfo.address,
-        abi: vaultABI,
-        functionName: "removeStrategy",
-        args: [strategyToRemove],
-      });
-    } catch (error: any) {
-      console.log(error);
-      return null;
-    }
-  }
-
-  async reallocate(allocations: Array<number>): Promise<Hex | null> {
-    try {
-      return await walletClient.writeContract({
-        address: this.vaultInfo.address,
-        abi: vaultABI,
-        functionName: "reallocate",
-        args: [allocations],
-      });
-    } catch (error: any) {
-      console.log(error);
-      return null;
-    }
+  reallocate(allocations: bigint[]): Hex {
+    return encodeAbiParameters(
+      [
+        { type: "address", name: "vault" },
+        { type: "uint256[]", name: "allocations" },
+      ],
+      [this.vaultInfo.address, allocations]
+    );
   }
 
   async getShares(lpAmount: bigint): Promise<bigint> {

@@ -5,8 +5,8 @@ import {
   State,
   HandlerCallback,
 } from "@elizaos/core";
-import { Vault } from "../contracts/vault";
 import { type Hex } from "viem";
+import { VaultService } from "../services/vault";
 
 export const depositFromAccount: Action = {
   name: "depositFromAccount",
@@ -30,40 +30,39 @@ export const depositFromAccount: Action = {
     );
   },
   handler: async (
-    _runtime: IAgentRuntime,
+    runtime: IAgentRuntime,
     message: Memory,
     _state: State | undefined,
     _opts: unknown,
     callback?: HandlerCallback
   ) => {
-    const txt = message.content?.text as string;
-    const [, vaultAddress, amountStr, account] =
-      txt.match(
+    const t = message.content?.text as string;
+    const m =
+      t.match(
         /^depositFromAccount\s+(0x[a-fA-F0-9]{40})\s+(\d+)\s+(0x[a-fA-F0-9]{40})$/
       ) || [];
 
-    if (!vaultAddress || !amountStr || !account) {
+    if (!m) {
       callback?.({
         text: "Usage: depositFromAccount <vaultAddress> <amountScaled> <accountAddress>",
       });
       return false;
     }
 
-    const amountScaled = BigInt(amountStr);
-    const vault = new Vault(vaultAddress as Hex);
-    let txHash: string | null = null;
-    try {
-      txHash = await vault.depositFromAccount(amountScaled, account as Hex);
-    } catch (err) {
-      // runtime.log()
-    }
+    const [_, vaultAddress, amountStr, account] = m;
+    const svc = runtime.getService(VaultService.serviceType) as VaultService;
 
-    const text = txHash
-      ? `Successfully deposited ${amountScaled} units from \`${account}\` into vault \`${vaultAddress}\`.\nTransaction: \`${txHash}\``
-      : `Failed to deposit ${amountScaled} units from \`${account}\` into vault \`${vaultAddress}\`.`;
+    const amountScaled = BigInt(amountStr);
+    const bytesResponse = svc.deposit(
+      vaultAddress as Hex,
+      amountScaled,
+      account as Hex
+    );
+
+    const text = `Bytes response is ${bytesResponse}`;
     callback?.({
       text,
-      content: { vaultAddress, amountScaled, account, txHash },
+      content: { vaultAddress, amountScaled, account, bytesResponse },
     });
     return true;
   },

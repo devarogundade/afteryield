@@ -1,12 +1,12 @@
-import { AgentRuntime, Memory } from "@elizaos/core";
+import { AgentRuntime } from "@elizaos/core";
 import express from "express";
-import { zeroHash } from "viem";
 import cors from "cors";
 import { AGENTS } from "./src/constants/agent";
 import { AppService } from "./src/app.service";
 import { StrategyPlugin } from "./src/plugins/strategy";
 import { VaultPlugin } from "./src/plugins/vault";
 import { AccountPlugin } from "./src/plugins/account";
+import { defaultReplies } from "./src/constants/replies";
 
 const app = express();
 app.use(cors());
@@ -63,7 +63,7 @@ app.post("/task", async (req: any, res: any) => {
       "Would you like to reallocate…?",
     ][Number(taskType)] ?? "Invalid task";
 
-  const replies: Memory[] = [];
+  const replies = await defaultReplies(character, taskType);
 
   try {
     await runtime.processActions(
@@ -78,9 +78,7 @@ app.post("/task", async (req: any, res: any) => {
     console.log(error);
   }
 
-  console.log(replies);
-
-  res.send(zeroHash);
+  res.send(replies[0].content);
 });
 
 const PORT = process.env.PORT || 4173;

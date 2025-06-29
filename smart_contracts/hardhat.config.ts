@@ -26,7 +26,7 @@ module.exports = {
       },
     },
     avalancheFuji: {
-      url: `https://ava-testnet.public.blastapi.io/ext/bc/C/rpc`,
+      url: `https://avalanche-fuji-c-chain-rpc.publicnode.com`,
       chainId: 43113,
       accounts: {
         mnemonic: MNEMONIC,

@@ -29,6 +29,7 @@
   },
   "scripts": {
     "dev:agents": "tsx main.ts",
+    "build:agents": "echo \"Built\"",
     "start": "elizaos start",
     "dev": "elizaos dev"
   },

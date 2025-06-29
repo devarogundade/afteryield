@@ -108,6 +108,10 @@ contract Agent is IAgent, Ownable, AutomationCompatibleInterface {
             (address, address)
         );
 
+        if (vault == address(0) || strategy == address(0)) {
+            return;
+        }
+
         IVault(vault).addStrategy(IStrategy(strategy));
     }
 
@@ -116,6 +120,10 @@ contract Agent is IAgent, Ownable, AutomationCompatibleInterface {
             response,
             (address, address)
         );
+
+        if (vault == address(0) || strategy == address(0)) {
+            return;
+        }
 
         IVault(vault).removeStrategy(IStrategy(strategy));
     }

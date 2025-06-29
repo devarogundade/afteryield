@@ -73,7 +73,10 @@ const AGENTS: AfterYieldAgent[] = [
       Trait.CapitalPreserver,
       Trait.LowFeeOnly,
     ],
-    vaults: VAULTS.filter((vault) => vault.agentAddress === "0x1111"),
+    vaults: VAULTS.filter(
+      (vault) =>
+        vault.agentAddress === "0xDDd09e89D654F284da540B8AbC5C6Fe8ED330d8b"
+    ),
     system:
       "Analyze current market conditions and allocate capital conservatively to protect user funds. Focus on stablecoin strategies with minimal risk.",
     knowledge: [
@@ -174,7 +177,10 @@ const AGENTS: AfterYieldAgent[] = [
       Trait.YieldMaximizer,
       Trait.ExperimentalProtocolsAllowed,
     ],
-    vaults: VAULTS.filter((vault) => vault.agentAddress === "0x2222"),
+    vaults: VAULTS.filter(
+      (vault) =>
+        vault.agentAddress === "0x85D365964271383c095c730dfC5679267b6173b9"
+    ),
     system:
       "Scan for the highest APY opportunities across emerging DeFi protocols. Reallocate aggressively into high-risk, high-reward strategies.",
     knowledge: [

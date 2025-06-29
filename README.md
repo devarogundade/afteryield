@@ -14,9 +14,7 @@ The agent then calls the **Chainlink Functions protocol contract**, supplying me
 
 In the on-chain **callback function**, the encoded response is decoded and the appropriate action is executed autonomously by the agent contract.
 
----
-
-## **Workflow Diagram**
+#### **Workflow Diagram**
 
 ![AfterYield drawio](https://github.com/user-attachments/assets/6a5accee-c909-4a02-b056-642279534c5b)
 
@@ -34,6 +32,8 @@ Agents are granted **explicit permission** to:
 * Transfer funds **from a Vault back to the Account**
 
 This permissioned structure ensures secure delegation of control, enabling agents to execute intelligent capital strategies while preserving user sovereignty.
+
+#### **Afteryield ElizaOS Agent Postman JSON**
 
 ```json
 {

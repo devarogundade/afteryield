@@ -1,3 +1,6 @@
+import dotenv from "dotenv";
+dotenv.config();
+
 import { createPublicClient, createWalletClient, http } from "viem";
 import { mnemonicToAccount } from "viem/accounts";
 import { avalancheFuji } from "viem/chains";

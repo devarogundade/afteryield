@@ -1,16 +1,16 @@
+import dotenv from "dotenv";
+dotenv.config();
+
 import express from "express";
 import { zeroHash } from "viem";
 import cors from "cors";
 import { AgentRuntime, Memory } from "@elizaos/core";
-import dotenv from "dotenv";
 
 import { AGENTS } from "./src/constants/agent";
 import { AppService } from "./src/app.service";
 import { StrategyPlugin } from "./src/plugins/strategy";
 import { VaultPlugin } from "./src/plugins/vault";
 import { AccountPlugin } from "./src/plugins/account";
-
-dotenv.config();
 
 const app = express();
 app.use(cors());
@@ -52,12 +52,10 @@ app.post("/task", async (req: any, res: any) => {
   const agentAddress = req.query.agentAddress;
   const taskType = req.query.taskType;
 
-  console.log(agentAddress);
-
   const character = AGENTS.find((agent) => agent.address === agentAddress);
   if (!character) return res.status(400).json({ error: "Agent not found" });
 
-  console.log(process.env.POSTGRES_URL);
+  console.log("text", process.env.PGLITE_DATA_DIR);
 
   const agent = new AgentRuntime({
     character,
@@ -65,8 +63,6 @@ app.post("/task", async (req: any, res: any) => {
   });
 
   await agent.initialize();
-
-  console.log("agent initialized");
 
   let text = "";
   if (taskType === 0) {
@@ -78,8 +74,6 @@ app.post("/task", async (req: any, res: any) => {
   } else {
     text = "Would you like to reallocate for your strategies?, If yes do.";
   }
-
-  console.log("text", text);
 
   const message: Memory = {
     roomId: crypto.randomUUID(),

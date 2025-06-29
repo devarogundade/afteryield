@@ -45,6 +45,14 @@ A **Strategy** is a modular logic unit built to maximize yield from specific DeF
 
 An **Agent** orchestrates Vaults and their Strategies. It can also manage a user's Account, but **only with explicit approval from the account owner**. Agents think, plan, and act autonomously through AI-powered reasoning integrated with Chainlink Functions and ElizaOS.
 
+| Name   | Gender | Avatar | Address |
+|--------|--------|--------|---------|
+| **Atlas** | Male | ![Atlas](https://afteryield.netlify.app/images/agents/atlas.png) | `0xF3CF0a04b5E65783a55F90A1f189784DFA3Dc38F` |
+| **Nova**  | Female | ![Nova](https://afteryield.netlify.app/images/agents/nova.png) | `0x4F39B1b151F9a4bDb8594f2138109F71Bae35Ee3` |
+| **Orion** | Male | ![Orion](https://afteryield.netlify.app/images/agents/orion.png) | `0xcB2213Ddc43E8C9801E6aC17a6a062F618ce7694` |
+| **Lyra**  | Female | ![Lyra](https://afteryield.netlify.app/images/agents/lyra.png) | `0x71978Be0373124afBC96329c84a892b21A607c36` |
+| **Echo**  | Other | ![Echo](https://afteryield.netlify.app/images/agents/echo.png) | `0xbFCFE80Aa7798f90b49a1448f9De8226489DB892` |
+
 [View in code](https://github.com/devarogundade/afteryield/tree/main/smart_contracts/contracts/Agent.sol)
 [ElizaOS Agents](https://github.com/devarogundade/afteryield/blob/main/elizaos-agents/src/constants/agent.ts)
 ---

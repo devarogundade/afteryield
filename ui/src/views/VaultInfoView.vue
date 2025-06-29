@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import Chart from '@/components/Chart.vue';
+import ProgressBox from '@/components/ProgressBox.vue';
 import { notify } from '@/reactives/notify';
 import { Clients } from '@/scripts/clients';
 import { getTokens } from '@/scripts/constants';
@@ -505,6 +506,8 @@ onMounted(() => {
                 </div>
             </div>
         </div>
+
+        <ProgressBox v-else />
     </section>
 </template>
 

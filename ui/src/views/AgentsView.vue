@@ -6,6 +6,7 @@ import { zeroAddress, type Hex } from 'viem';
 import { AccountContract } from '@/scripts/contracts';
 import { useRouter } from 'vue-router';
 import { notify } from '@/reactives/notify';
+import ProgressBox from '@/components/ProgressBox.vue';
 
 const router = useRouter();
 const dataStore = useDataStore();
@@ -149,7 +150,7 @@ onUnmounted(() => {
                 </div>
 
             </div>
-            <div class="agents">
+            <div class="agents" v-if="dataStore.agents.length > 0">
                 <RouterLink v-for="agent in dataStore.agents" :key="agent.address" :to="`/agents/${agent.address}`">
                     <div class="agent">
                         <div class="agent_info">
@@ -216,6 +217,8 @@ onUnmounted(() => {
                     </div>
                 </RouterLink>
             </div>
+
+            <ProgressBox v-else />
         </div>
     </section>
 </template>

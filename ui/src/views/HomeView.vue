@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import ProgressBox from '@/components/ProgressBox.vue';
 import Converter from '@/scripts/converter';
 import type { AfterYieldAgent, AssetType } from '@/scripts/types';
 import { useBalanceStore } from '@/stores/balance';
@@ -118,7 +119,7 @@ const addOrRemoveAgentToFilter = (agent: AfterYieldAgent) => {
           </div>
         </div>
 
-        <table>
+        <table v-if="dataStore.agents.length > 0">
           <thead>
             <tr>
               <th>
@@ -179,12 +180,16 @@ const addOrRemoveAgentToFilter = (agent: AfterYieldAgent) => {
                       vault.allSupportedStrategies.reduce((a, b) => a + b.safety, 0) / vault.allSupportedStrategies.length
                     }} of 100
                   </p>
-                  <i v-tooltip:top="`Very safe.`" class="fi fi-rs-info"></i>
+                  <i v-tooltip:top="`Very safe.`" class="fi fi-rs-shield-trust"></i>
                 </div>
               </td>
             </tr>
           </tbody>
         </table>
+
+        <div class="end" v-if="dataStore.agents.length > 0">That's all. More vaults soon.</div>
+
+        <ProgressBox v-else />
       </div>
     </div>
   </section>
@@ -421,5 +426,13 @@ tbody td {
   display: flex;
   align-items: center;
   justify-content: flex-end;
+  gap: 8px;
+}
+
+.end {
+  margin-top: 40px;
+  font-size: 12px;
+  color: var(--tx-normal);
+  text-align: center;
 }
 </style>

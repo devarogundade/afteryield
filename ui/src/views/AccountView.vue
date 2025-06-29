@@ -76,7 +76,7 @@ const removeFromAccount = async (agent: AfterYieldAgent, e: any) => {
                     <div class="dropdown">
                         <div class="dropdown_item" @click="allAssets = true">
                             <p>All assets</p>
-                            <i class="fi fi-rs-chevron-right"></i>
+                            <i class="fi fi-rs-angle-small-right"></i>
                         </div>
                     </div>
                 </div>
@@ -136,7 +136,7 @@ const removeFromAccount = async (agent: AfterYieldAgent, e: any) => {
                         <RouterLink to="/agents">
                             <div class="dropdown_item">
                                 <p>All agents</p>
-                                <i class="fi fi-rs-chevron-right"></i>
+                                <i class="fi fi-rs-angle-small-right"></i>
                             </div>
                         </RouterLink>
                     </div>
@@ -193,10 +193,9 @@ const removeFromAccount = async (agent: AfterYieldAgent, e: any) => {
                 </thead>
 
                 <tbody>
-                    <tr v-for="activity, index in [1, 2, 3]" :key="index" :class="index == 0 ? 'active_activity' : ''">
+                    <tr v-for="activity, index in [1, 2, 3]" :key="index">
                         <td>
                             <div class="product">
-
                                 <div class="product_info">
                                     <p>Deposit</p>
 
@@ -237,16 +236,8 @@ const removeFromAccount = async (agent: AfterYieldAgent, e: any) => {
                         </td>
 
                         <td>
-                            <div class="signers">
-                                <div class="users">
-                                    <UsersIcon />
-                                    <p>1 <span>of 2</span></p>
-
-                                </div>
-
-                                <div class="progress">
-                                    <div class="bar" :style="`width: ${0.5}) * 100}%`"></div>
-                                </div>
+                            <div class="initiator">
+                                <p>Atlas</p>
                             </div>
                         </td>
 
@@ -696,6 +687,11 @@ tbody td:last-child {
     height: 100%;
     background: var(--primary-light);
     border-radius: 10px;
+}
+
+.initiator p {
+    color: var(--tx-normal);
+    font-size: 16px;
 }
 
 .amount {

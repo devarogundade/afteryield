@@ -1,8 +1,11 @@
 <script setup lang="ts">
+import ProgressBox from '@/components/ProgressBox.vue';
 import { notify } from '@/reactives/notify';
 import { Clients } from '@/scripts/clients';
 import { AccountContract } from '@/scripts/contracts';
+import Converter from '@/scripts/converter';
 import type { AfterYieldAgent } from '@/scripts/types';
+import { useBalanceStore } from '@/stores/balance';
 import { useDataStore } from '@/stores/data';
 import { zeroAddress, type Hex } from 'viem';
 import { onMounted, ref, onUnmounted } from 'vue';
@@ -11,6 +14,7 @@ import { useRoute, useRouter } from 'vue-router';
 const route = useRoute();
 const router = useRouter();
 const dataStore = useDataStore();
+const balanceStore = useBalanceStore();
 const agent = ref<AfterYieldAgent | undefined>(undefined);
 
 const currentAudio = ref<HTMLAudioElement | null>(null);
@@ -239,42 +243,64 @@ onMounted(() => {
                                 </div>
                             </th>
                             <th>Wallet</th>
-                            <th>Deposited</th>
-                            <th>Current APY</th>
-                            <th>Daily</th>
+                            <th>Shares LP</th>
+                            <th>AVG. Current APY</th>
+                            <th>AVG. Daily</th>
                             <th>TVL</th>
                             <th>Safety</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="vault in agent.vaults">
+                        <tr v-for="vault in agent.vaults" :key="vault.address"
+                            @click="router.push(`/vaults/${vault.address}`)">
                             <td>
-
+                                <div class="vault_detail">
+                                    <img :src="vault.image" :alt="vault.name">
+                                    {{ vault.name }}
+                                </div>
                             </td>
                             <td>
-
+                                {{ Converter.toMoney(balanceStore.userBalances[vault.asset.address]) }}
                             </td>
                             <td>
-
+                                {{ Converter.toMoney(balanceStore.userBalances[vault.address]) }}
                             </td>
                             <td>
-
+                                {{
+                                    (vault.allSupportedStrategies.reduce((a, b) => a + b.apy, 0) /
+                                        vault.allSupportedStrategies.length
+                                    ) / 100}}%
                             </td>
                             <td>
-
+                                {{
+                                    (vault.allSupportedStrategies.reduce((a, b) => a + b.dailyApy, 0) /
+                                        vault.allSupportedStrategies.length) / 100
+                                }}%
                             </td>
-
                             <td>
-
+                                {{vault.allSupportedStrategies.reduce((a, b) => a + b.tvl, 0)}} {{ vault.asset.symbol }}
                             </td>
                             <td>
-
+                                <div class="safety">
+                                    <p>
+                                        {{
+                                            vault.allSupportedStrategies.reduce((a, b) => a + b.safety, 0) /
+                                            vault.allSupportedStrategies.length
+                                        }} of 100
+                                    </p>
+                                    <i v-tooltip:top="`Very safe.`" class="fi fi-rs-shield-trust"></i>
+                                </div>
                             </td>
                         </tr>
                     </tbody>
                 </table>
+
+                <div class="end" v-if="dataStore.agents.length > 0">That's all. More vaults soon.</div>
+
             </div>
         </div>
+
+        <ProgressBox v-else />
     </section>
 </template>
 
@@ -549,5 +575,54 @@ tbody tr {
     height: 80px;
     background: var(--bg-lightest);
     border-bottom: 1px solid var(--bg-lighter);
+    cursor: pointer;
+}
+
+tbody td {
+    padding: 16px 24px;
+    font-size: 14px;
+    color: var(--tx-semi);
+    font-weight: 400;
+    position: relative;
+}
+
+.vault_detail {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.vault_detail img {
+    width: 40px;
+    height: 40px;
+    border-radius: 20px;
+    object-fit: cover;
+}
+
+.vault_agent {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.vault_agent img {
+    height: 34px;
+    width: 34px;
+    object-fit: cover;
+    border-radius: 20px;
+}
+
+.safety {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 8px;
+}
+
+.end {
+    margin-top: 40px;
+    font-size: 12px;
+    color: var(--tx-normal);
+    text-align: center;
 }
 </style>

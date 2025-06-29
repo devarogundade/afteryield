@@ -58,7 +58,7 @@ Agents are granted **explicit permission** to:
 
 This permissioned structure ensures secure delegation of control, enabling agents to execute intelligent capital strategies while preserving user sovereignty.
 
-[View in code](https://github.com/devarogundade/afteryield/tree/main/smart_contracts/contracts/protocol/AccountFactory.sol)
+[View in code](https://github.com/devarogundade/afteryield/tree/main/smart_contracts/contracts/protocol/Account.sol)
 
 #### **Afteryield ElizaOS Agents Postman JSON**
 

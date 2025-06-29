@@ -378,6 +378,23 @@ onMounted(() => {
                                 :class="tabs.lp === 'total' ? 'tab tab_active' : 'tab'">Total Pool</button>
                         </div>
                     </div>
+
+                    <div class="lp_data">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>LP</th>
+                                    <th>ASSET</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>1LP</td>
+                                    <td>1{{ vault.asset.symbol }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
 
                 <div class="agent">
@@ -441,6 +458,12 @@ onMounted(() => {
                 <div class="safety">
                     <div class="safety_head">
                         <h3>Safety Score</h3>
+                    </div>
+                    <div class="safety_data">
+                        <h1> {{
+                            vault.allSupportedStrategies.reduce((a, b) => a + b.safety, 0) /
+                            vault.allSupportedStrategies.length
+                        }} of 100</h1>
                     </div>
                 </div>
 
@@ -913,6 +936,14 @@ onMounted(() => {
     color: var(--tx-semi);
     font-weight: 500;
     font-size: 18px;
+}
+
+.safety_data {
+    padding: 30px 0;
+    text-align: center;
+    color: var(--tx-normal);
+    font-size: 30px;
+    font-weight: 400;
 }
 
 .vault_details {

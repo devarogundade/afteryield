@@ -80,7 +80,7 @@ app.get("/task", async (req: any, res: any) => {
 
   console.log(replies);
 
-  res.send(replies[0].content.text);
+  res.json(replies[0].content);
 });
 
 const PORT = process.env.PORT || 4173;

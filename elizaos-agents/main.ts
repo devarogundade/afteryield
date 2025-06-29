@@ -44,7 +44,7 @@ app.get("/strategies/:address", (req: any, res: any) => {
   res.json(strategy);
 });
 
-app.post("/task", async (req: any, res: any) => {
+app.get("/task", async (req: any, res: any) => {
   const agentAddress = req.query.agentAddress;
   const taskType = req.query.taskType;
 

@@ -21,26 +21,6 @@ const DeployModule = buildModule("DeployModule", (m) => {
   const { echo } = m.useModule(EchoModule);
   const { orion } = m.useModule(OrionModule);
 
-  // m.call(atlas, "addStrategy", [
-  //   encodeAbiParameters(
-  //     [
-  //       { type: "address", name: "vault" },
-  //       { type: "address", name: "newStrategy" },
-  //     ],
-  //     [vaultUSDC, aaveStrategyUSDC]
-  //   ),
-  // ]);
-
-  // m.call(nova, "addStrategy", [
-  //   encodeAbiParameters(
-  //     [
-  //       { type: "address", name: "vault" },
-  //       { type: "address", name: "newStrategy" },
-  //     ],
-  //     [vaultLink, aaveStrategyLink]
-  //   ),
-  // ]);
-
   return {};
 });
 

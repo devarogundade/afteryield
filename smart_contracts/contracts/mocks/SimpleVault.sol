@@ -16,8 +16,17 @@ contract SimpleVault is Initializable, VaultUpgradeable {
         string memory name,
         string memory symbol,
         address allowedAsset,
-        IAgent agent
+        IAgent agent,
+        IStrategy[] memory initStrategies,
+        uint256[] memory initAllocations
     ) external initializer {
-        __Vault_init(name, symbol, allowedAsset, agent);
+        __Vault_init(
+            name,
+            symbol,
+            allowedAsset,
+            agent,
+            initStrategies,
+            initAllocations
+        );
     }
 }

@@ -28,13 +28,23 @@ contract VaultUpgradeable is
         string memory name,
         string memory symbol,
         address allowedAsset,
-        IAgent agent
+        IAgent agent,
+        IStrategy[] memory initStrategies,
+        uint256[] memory initAllocations
     ) internal onlyInitializing {
         __Ownable_init(address(agent));
         __ERC20_init(name, symbol);
 
         _allowedAsset = allowedAsset;
         _agent = agent;
+
+        _strategies = initStrategies;
+
+        for (uint256 index = 0; index < initStrategies.length; index++) {
+            _allocations[initStrategies[index]] = initAllocations[index];
+        }
+
+        _checkAllocations();
     }
 
     function deposit(

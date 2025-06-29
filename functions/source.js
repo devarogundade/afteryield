@@ -12,4 +12,4 @@ if (resp.error) {
   throw Error(`HTTP error: ${resp.message || resp.response}`);
 }
 
-return Functions.encodeString(resp.data.data);
+return Functions.encodeString(resp.data);

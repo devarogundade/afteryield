@@ -14,13 +14,6 @@ app.use(express.json());
 
 const appService = new AppService();
 
-for (let index = 0; index < AGENTS.length; index++) {
-  new AgentRuntime({
-    character: AGENTS[index],
-    plugins: [AccountPlugin, VaultPlugin, StrategyPlugin],
-  });
-}
-
 app.get("/agents", (_: any, res: any) => {
   res.json(appService.getAgents());
 });
@@ -55,51 +48,43 @@ app.post("/task", async (req: any, res: any) => {
   const agentAddress = req.query.agentAddress;
   const taskType = req.query.taskType;
 
-  console.log(agentAddress);
-
   const character = AGENTS.find((agent) => agent.address === agentAddress);
   if (!character) return res.status(400).json({ error: "Agent not found" });
 
-  console.log(process.env.POSTGRES_URL);
-
-  const agent = new AgentRuntime({
+  const runtime = new AgentRuntime({
     character,
     plugins: [AccountPlugin, VaultPlugin, StrategyPlugin],
   });
 
-  await agent.initialize();
+  const text =
+    [
+      "Look for strategies you might want to add…",
+      "Look for strategies you might want to remove…",
+      "Would you like to reallocate…?",
+    ][Number(taskType)] ?? "Invalid task";
 
-  console.log("agent initialized");
+  const replies: Memory[] = [];
 
-  let text = "";
-  if (taskType === 0) {
-    text =
-      "Look for strategies you might want to add. And you find any add it.";
-  } else if (taskType === 1) {
-    text =
-      "Look for strategies you might want to remove. And you find any remove it.";
-  } else {
-    text = "Would you like to reallocate for your strategies?, If yes do.";
+  try {
+    await runtime.processActions(
+      {
+        entityId: crypto.randomUUID(),
+        roomId: crypto.randomUUID(),
+        content: { text },
+      },
+      replies
+    );
+  } catch (error) {
+    console.log(error);
   }
 
-  console.log("text", text);
+  console.log(replies);
 
-  const message: Memory = {
-    roomId: crypto.randomUUID(),
-    entityId: crypto.randomUUID(),
-    content: {
-      text,
-    },
-  };
-  const responses: Memory[] = [];
-
-  await agent.processActions(message, responses);
-
-  console.log(responses);
-
-  res.json({ data: zeroHash });
+  res.send(zeroHash);
 });
 
 const PORT = process.env.PORT || 4173;
 
-app.listen(PORT, () => {});
+app.listen(PORT, () => {
+  console.log("Server running");
+});

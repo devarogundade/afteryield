@@ -12,6 +12,7 @@ import type { AfterYieldAgent } from '@/scripts/types';
 import { useRouter } from 'vue-router';
 import { AccountContract } from '@/scripts/contracts';
 import { notify } from '@/reactives/notify';
+import Converter from '@/scripts/converter';
 
 const router = useRouter();
 const dataStore = useDataStore();
@@ -83,8 +84,9 @@ const removeFromAccount = async (agent: AfterYieldAgent, e: any) => {
 
                 <div class="assets_value">
                     <div class="value_amount">
-                        <p>$0
-                            <span>+0.00%</span>
+                        <p>${{Converter.toMoney(getTokens.reduce((a, token) => a +
+                            (balanceStore.balances[token.address] * token.price), 0))}}
+                            <!-- <span>+0.00%</span> -->
                         </p>
 
                         <div class="stats">
@@ -95,7 +97,8 @@ const removeFromAccount = async (agent: AfterYieldAgent, e: any) => {
 
                             <div class="stat">
                                 <i class="fi fi-rs-receive"></i>
-                                <p>$0.00 <span>Ins</span></p>
+                                <p>${{Converter.toMoney(getTokens.reduce((a, token) => a +
+                                    (balanceStore.balances[token.address] * token.price), 0))}} <span>Ins</span></p>
                             </div>
                         </div>
                     </div>

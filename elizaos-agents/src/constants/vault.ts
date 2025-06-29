@@ -4,7 +4,7 @@ import { AAVE_USDC_STRATEGY, AAVE_LINK_STRATEGY } from "./strategy";
 const VAULTS: VaultInfo[] = [
   {
     address: "0x975B445de301719d750064D9146B248EfB251373",
-    agentAddress: "0xF3CF0a04b5E65783a55F90A1f189784DFA3Dc38F",
+    agentAddress: "0x1AD7e3fB819297179e3650b331A7346394470346",
     name: "USDC",
     image: "/images/usdc.png",
     asset: {
@@ -18,7 +18,7 @@ const VAULTS: VaultInfo[] = [
   },
   {
     address: "0x295B515831E34B1198Ffe5562A7d868BBAaf467e",
-    agentAddress: "0x4F39B1b151F9a4bDb8594f2138109F71Bae35Ee3",
+    agentAddress: "0x8853006912503D97657428207A6eFF42c63CCB49",
     name: "Chainlink",
     image: "/images/chainlink.png",
     asset: {

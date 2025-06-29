@@ -1,7 +1,7 @@
 import { Hex } from "viem";
 
 const Provider = {
-  AccountFactory: "0x77b2ea012282940951b150E634a63e16C94BDbDA" as Hex,
+  AccountFactory: "0xa319d230048aAE3c681d7898d71800d92605C80e" as Hex,
 };
 
 export { Provider };

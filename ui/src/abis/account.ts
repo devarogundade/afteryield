@@ -115,6 +115,25 @@ export const accountABI = [
     type: "function",
   },
   {
+    inputs: [
+      {
+        internalType: "address",
+        name: "vault",
+        type: "address",
+      },
+    ],
+    name: "getModeFor",
+    outputs: [
+      {
+        internalType: "enum Enums.AutoPilotMode",
+        name: "mode",
+        type: "uint8",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
     inputs: [],
     name: "getOwner",
     outputs: [

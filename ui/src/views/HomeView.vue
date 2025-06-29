@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import ProgressBox from '@/components/ProgressBox.vue';
+import { getToken, getTokens } from '@/scripts/constants';
 import Converter from '@/scripts/converter';
 import type { AfterYieldAgent, AssetType } from '@/scripts/types';
 import { useBalanceStore } from '@/stores/balance';
 import { useDataStore } from '@/stores/data';
+import { tokenToString } from 'typescript';
 import type { Hex } from 'viem';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
@@ -39,8 +41,18 @@ const addOrRemoveAgentToFilter = (agent: AfterYieldAgent) => {
 
           <div class="portfolio_stats">
             <div class="stat">
+              <h3>WALLET</h3>
+              <p>${{Converter.toMoney(getTokens.reduce((a, token) => a +
+                (balanceStore.userBalances[token.address] * token.price), 0))}}
+              </p>
+            </div>
+
+            <div class="stat">
               <h3>DEPOSITED</h3>
-              <p>$0</p>
+              <p>${{Converter.toMoney(Object.keys(balanceStore.userBalances).reduce((a, vault) => a +
+                (balanceStore.userBalances[vault] *
+                  (getToken(dataStore.vaults.find(a => a.address == vault as Hex)?.asset.address)?.price || 0)), 0))}}
+              </p>
             </div>
 
             <div class="stat">
@@ -247,6 +259,7 @@ const addOrRemoveAgentToFilter = (agent: AfterYieldAgent) => {
   align-items: center;
   justify-content: flex-end;
   gap: 4px;
+  width: max-content;
 }
 
 .stat p {

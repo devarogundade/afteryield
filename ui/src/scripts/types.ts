@@ -79,6 +79,7 @@ type Token = {
   symbol: string;
   icon: string;
   decimals: number;
+  price: number;
 };
 
 type AfterYieldAgent = {

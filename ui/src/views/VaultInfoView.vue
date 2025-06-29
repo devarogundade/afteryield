@@ -101,7 +101,9 @@ const vault = ref<VaultInfo | undefined>(undefined);
 const agent = ref<AfterYieldAgent | undefined>(undefined);
 
 const getVault = async (address: Hex) => {
-    vault.value = await Clients.getVault(address); getAgent();
+    vault.value = await Clients.getVault(address);
+    getAgent();
+    getMode();
 };
 
 const getAgent = () => {
@@ -252,7 +254,8 @@ onMounted(() => {
 
                 <div class="title_right">
                     <div class="actions">
-                        <button class="mode" @click="setModeFor">Turn On Autopilot</button>
+                        <button class="mode" @click="setModeFor">{{ mode == AutoPilotMode.Off ? 'Turn On Autopilot' :
+                            'Turn Off Autopilot' }}</button>
                         <div class="star"><i class="fi fi-rs-star"></i></div>
                     </div>
                 </div>

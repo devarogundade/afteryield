@@ -1,7 +1,7 @@
 import { StrategyInfo } from "../types";
 
 const AAVE_USDC_STRATEGY: StrategyInfo = {
-  address: "0x92c3B7ff109B8Dd47248c49e4124FA64e046e4F3",
+  address: "0x3a29d881BE12e928128F52EB568c99Ddb91F5007",
   name: "AAVE USDC Strategy",
   asset: {
     name: "USDC",
@@ -30,7 +30,7 @@ const AAVE_USDC_STRATEGY: StrategyInfo = {
   feeRecipient: "0x3E646e062F05e01e1860eA53a6DC81e7E9162DE6",
   feeCollector: "0xF5fAA894536384c487710D88048F37792f66b914",
   strategist: "0x3E646e062F05e01e1860eA53a6DC81e7E9162DE6",
-  swapRouter: "0xd25F26B9a47e560a6888C8406260c67A2779ecCB",
+  swapRouter: "0x1D33c1AB462b09602936B1a60fE6Fc6fdCE865A6",
   fees: {
     depositFee: 0,
     withdrawFee: 0,
@@ -44,7 +44,7 @@ const AAVE_USDC_STRATEGY: StrategyInfo = {
 };
 
 const AAVE_LINK_STRATEGY: StrategyInfo = {
-  address: "0x69eF1D0149c3e8190D642d880e092a95637757Ee",
+  address: "0x9BAD179fDa2Cf3Bfd51a1bbCA5C545392856EDAa",
   name: "AAVE LINK Strategy",
   asset: {
     name: "Chainlink",
@@ -73,7 +73,7 @@ const AAVE_LINK_STRATEGY: StrategyInfo = {
   feeRecipient: "0x3E646e062F05e01e1860eA53a6DC81e7E9162DE6",
   feeCollector: "0xF5fAA894536384c487710D88048F37792f66b914",
   strategist: "0x3E646e062F05e01e1860eA53a6DC81e7E9162DE6",
-  swapRouter: "0xd25F26B9a47e560a6888C8406260c67A2779ecCB",
+  swapRouter: "0x1D33c1AB462b09602936B1a60fE6Fc6fdCE865A6",
   fees: {
     depositFee: 0,
     withdrawFee: 0,

@@ -34,15 +34,16 @@ module.exports = {
     },
   },
   etherscan: {
-    // apiKey: {
-    //   avalancheFuji: AVALANCHE_API_KEY,
-    // },
+    apiKey: {
+      avalancheFuji: "snowtrace",
+    },
     customChains: [
       {
         network: "avalancheFuji",
         chainId: 43113,
         urls: {
-          apiURL: "https://api-testnet.snowtrace.io",
+          apiURL:
+            "https://api.routescan.io/v2/network/testnet/evm/43113/etherscan",
           browserURL: "https://testnet.snowtrace.io",
         },
       },

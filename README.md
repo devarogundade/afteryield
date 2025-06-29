@@ -87,7 +87,7 @@ This permissioned structure ensures secure delegation of control, enabling agent
 				"auth": {
 					"type": "noauth"
 				},
-				"method": "POST",
+				"method": "GET",
 				"header": [],
 				"url": {
 					"raw": "https://afteryield.onrender.com/task?agentAddress={{agentAddress}}&taskType={{taskType}}",

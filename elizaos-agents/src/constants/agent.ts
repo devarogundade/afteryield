@@ -47,7 +47,7 @@ const AGENTS: AfterYieldAgent[] = [
     ],
     bioAudio: "/voices/atlas.mp3",
     gender: Gender.Male,
-    address: "0xDDd09e89D654F284da540B8AbC5C6Fe8ED330d8b",
+    address: "0xF3CF0a04b5E65783a55F90A1f189784DFA3Dc38F",
     riskFactor: 0.0121,
     model: "Anthropic",
     adjectives: [
@@ -75,7 +75,7 @@ const AGENTS: AfterYieldAgent[] = [
     ],
     vaults: VAULTS.filter(
       (vault) =>
-        vault.agentAddress === "0xDDd09e89D654F284da540B8AbC5C6Fe8ED330d8b"
+        vault.agentAddress === "0xF3CF0a04b5E65783a55F90A1f189784DFA3Dc38F"
     ),
     system:
       "Analyze current market conditions and allocate capital conservatively to protect user funds. Focus on stablecoin strategies with minimal risk.",
@@ -151,7 +151,7 @@ const AGENTS: AfterYieldAgent[] = [
     ],
     bioAudio: "/voices/nova.mp3",
     gender: Gender.Female,
-    address: "0x85D365964271383c095c730dfC5679267b6173b9",
+    address: "0x4F39B1b151F9a4bDb8594f2138109F71Bae35Ee3",
     riskFactor: 0.023,
     model: "OpenAI",
     adjectives: [
@@ -179,7 +179,7 @@ const AGENTS: AfterYieldAgent[] = [
     ],
     vaults: VAULTS.filter(
       (vault) =>
-        vault.agentAddress === "0x85D365964271383c095c730dfC5679267b6173b9"
+        vault.agentAddress === "0x4F39B1b151F9a4bDb8594f2138109F71Bae35Ee3"
     ),
     system:
       "Scan for the highest APY opportunities across emerging DeFi protocols. Reallocate aggressively into high-risk, high-reward strategies.",
@@ -255,7 +255,7 @@ const AGENTS: AfterYieldAgent[] = [
     ],
     bioAudio: "/voices/orion.mp3",
     gender: Gender.Male,
-    address: "0x3333",
+    address: "0xcB2213Ddc43E8C9801E6aC17a6a062F618ce7694",
     riskFactor: 0.143,
     model: "OpenAI",
     adjectives: [
@@ -280,7 +280,10 @@ const AGENTS: AfterYieldAgent[] = [
       Trait.BlueChipOnly,
       Trait.MediumTerm,
     ],
-    vaults: VAULTS.filter((vault) => vault.agentAddress === "0x3333"),
+    vaults: VAULTS.filter(
+      (vault) =>
+        vault.agentAddress === "0xcB2213Ddc43E8C9801E6aC17a6a062F618ce7694"
+    ),
     system:
       "Build a balanced portfolio that blends stable and growth-oriented strategies. Adjust allocations moderately based on market trends.",
     knowledge: [
@@ -355,7 +358,7 @@ const AGENTS: AfterYieldAgent[] = [
     ],
     bioAudio: "/voices/lyra.mp3",
     gender: Gender.Female,
-    address: "0x4444",
+    address: "0x71978Be0373124afBC96329c84a892b21A607c36",
     riskFactor: 0.003,
     model: "Anthropic",
     adjectives: [
@@ -380,7 +383,10 @@ const AGENTS: AfterYieldAgent[] = [
       Trait.CapitalPreserver,
       Trait.StableOnly,
     ],
-    vaults: VAULTS.filter((vault) => vault.agentAddress === "0x4444"),
+    vaults: VAULTS.filter(
+      (vault) =>
+        vault.agentAddress === "0x71978Be0373124afBC96329c84a892b21A607c36"
+    ),
     system:
       "Identify and allocate only to ESG-compliant and green DeFi protocols. Ensure all investments meet sustainability standards.",
     knowledge: [
@@ -455,7 +461,7 @@ const AGENTS: AfterYieldAgent[] = [
     ],
     bioAudio: "/voices/echo.mp3",
     gender: Gender.Other,
-    address: "0x5555",
+    address: "0xbFCFE80Aa7798f90b49a1448f9De8226489DB892",
     riskFactor: 0.128,
     model: "OpenAI",
     adjectives: ["Adaptive", "Responsive", "Hybrid", "Sentient", "Tactical"],
@@ -474,7 +480,10 @@ const AGENTS: AfterYieldAgent[] = [
       Trait.MultiAsset,
       Trait.ManualOverridesAllowed,
     ],
-    vaults: VAULTS.filter((vault) => vault.agentAddress === "0x5555"),
+    vaults: VAULTS.filter(
+      (vault) =>
+        vault.agentAddress === "0xbFCFE80Aa7798f90b49a1448f9De8226489DB892"
+    ),
     system:
       "Continuously monitor market sentiment and user overrides. Dynamically adjust vault allocations in response to market signals.",
     knowledge: [

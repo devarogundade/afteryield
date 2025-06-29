@@ -1,7 +1,7 @@
 import { StrategyInfo } from "../types";
 
 const AAVE_USDC_STRATEGY: StrategyInfo = {
-  address: "0x9b081D3dEa910862da428a65Bf22518C184E403B",
+  address: "0x92c3B7ff109B8Dd47248c49e4124FA64e046e4F3",
   name: "AAVE USDC Strategy",
   asset: {
     name: "USDC",
@@ -24,13 +24,13 @@ const AAVE_USDC_STRATEGY: StrategyInfo = {
   dailyApy: 8130,
   tvl: 443,
   safety: 80,
-  vault: "0x7539de641e4bf34d79C3FB5dC19cd56BC4d52990",
+  vault: "0x975B445de301719d750064D9146B248EfB251373",
   feeId: 0,
   manager: "0x3E646e062F05e01e1860eA53a6DC81e7E9162DE6",
   feeRecipient: "0x3E646e062F05e01e1860eA53a6DC81e7E9162DE6",
-  feeCollector: "0x8686F62a11EC9441572436b0d39dEed936845DD3",
-  strategist: "0xc3BD0A2193c8F027B82ddE3611D18589ef3f62a9",
-  swapRouter: "0xb098a99693Cded13E1BCF35D5F7101008EF752c9",
+  feeCollector: "0xF5fAA894536384c487710D88048F37792f66b914",
+  strategist: "0x3E646e062F05e01e1860eA53a6DC81e7E9162DE6",
+  swapRouter: "0xd25F26B9a47e560a6888C8406260c67A2779ecCB",
   fees: {
     depositFee: 0,
     withdrawFee: 0,
@@ -44,7 +44,7 @@ const AAVE_USDC_STRATEGY: StrategyInfo = {
 };
 
 const AAVE_LINK_STRATEGY: StrategyInfo = {
-  address: "0xc3BD0A2193c8F027B82ddE3611D18589ef3f62a9",
+  address: "0x69eF1D0149c3e8190D642d880e092a95637757Ee",
   name: "AAVE LINK Strategy",
   asset: {
     name: "Chainlink",
@@ -67,13 +67,13 @@ const AAVE_LINK_STRATEGY: StrategyInfo = {
   dailyApy: 10468,
   tvl: 86412,
   safety: 80,
-  vault: "0xAe140a39625119551A1E9e4E82FAF354B48Ec948",
+  vault: "0x295B515831E34B1198Ffe5562A7d868BBAaf467e",
   feeId: 0,
   manager: "0x3E646e062F05e01e1860eA53a6DC81e7E9162DE6",
   feeRecipient: "0x3E646e062F05e01e1860eA53a6DC81e7E9162DE6",
-  feeCollector: "0x8686F62a11EC9441572436b0d39dEed936845DD3",
-  strategist: "0xc3BD0A2193c8F027B82ddE3611D18589ef3f62a9",
-  swapRouter: "0xb098a99693Cded13E1BCF35D5F7101008EF752c9",
+  feeCollector: "0xF5fAA894536384c487710D88048F37792f66b914",
+  strategist: "0x3E646e062F05e01e1860eA53a6DC81e7E9162DE6",
+  swapRouter: "0xd25F26B9a47e560a6888C8406260c67A2779ecCB",
   fees: {
     depositFee: 0,
     withdrawFee: 0,

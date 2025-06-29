@@ -78,6 +78,8 @@ app.post("/task", async (req: any, res: any) => {
     console.log(error);
   }
 
+  console.log(replies);
+
   res.send(replies[0].content.text);
 });
 

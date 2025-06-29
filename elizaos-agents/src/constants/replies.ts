@@ -12,13 +12,13 @@ const defaultReplies = async (
   let bytes = zeroHash as Hex;
   const existingStrategies = await vault.getStrategies();
 
-  if (taskType === 0) {
+  if (taskType == 0) {
     if (existingStrategies.length === 0) {
       bytes = vault.addStrategy(agent.vaults[0].address);
     } else {
       bytes = vault.addStrategy(zeroAddress);
     }
-  } else if (taskType === 1) {
+  } else if (taskType == 1) {
     if (existingStrategies.length > 0) {
       bytes = vault.removeStrategy(agent.vaults[0].address);
     } else {

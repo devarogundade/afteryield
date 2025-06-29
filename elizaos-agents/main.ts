@@ -1,5 +1,5 @@
 import { AgentRuntime } from "@elizaos/core";
-import express from "express";
+import Express from "express";
 import cors from "cors";
 import { AGENTS } from "./src/constants/agent";
 import { AppService } from "./src/app.service";
@@ -8,9 +8,9 @@ import { VaultPlugin } from "./src/plugins/vault";
 import { AccountPlugin } from "./src/plugins/account";
 import { defaultReplies } from "./src/constants/replies";
 
-const app = express();
+const app = Express();
 app.use(cors());
-app.use(express.json());
+app.use(Express.json());
 
 const appService = new AppService();
 
@@ -78,7 +78,7 @@ app.post("/task", async (req: any, res: any) => {
     console.log(error);
   }
 
-  res.send(replies[0].content);
+  res.send(replies[0].content.text);
 });
 
 const PORT = process.env.PORT || 4173;

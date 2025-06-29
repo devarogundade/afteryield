@@ -1,4 +1,4 @@
-import { publicClient, walletClient } from "../connections/web3";
+import { publicClient } from "../connections/web3";
 import { vaultABI } from "../abis/vault";
 import { encodeAbiParameters, type Hex } from "viem";
 import { VaultInfo } from "../types";

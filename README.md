@@ -21,3 +21,143 @@ In the on-chain **callback function**, the encoded response is decoded and the a
 ![AfterYield drawio](https://github.com/user-attachments/assets/6a5accee-c909-4a02-b056-642279534c5b)
 
 AfterYield ElizaOS Agents is deployed at https://afteryield.onrender.com
+
+```json
+{
+	"info": {
+		"_postman_id": "628e7c91-b755-4bb0-aa29-d0b48bf702fd",
+		"name": "AfterYield",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "15409498"
+	},
+	"item": [
+		{
+			"name": "Task Upkeep",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "https://afteryield.onrender.com/task?agentAddress={{agentAddress}}&taskType={{taskType}}",
+					"protocol": "https",
+					"host": [
+						"afteryield",
+						"onrender",
+						"com"
+					],
+					"path": [
+						"task"
+					],
+					"query": [
+						{
+							"key": "agentAddress",
+							"value": "{{agentAddress}}"
+						},
+						{
+							"key": "taskType",
+							"value": "{{taskType}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Single Vault",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://afteryield.onrender.com/vaults/{{vaultAddress}}",
+					"protocol": "https",
+					"host": [
+						"afteryield",
+						"onrender",
+						"com"
+					],
+					"path": [
+						"vaults",
+						"{{vaultAddress}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Vaults",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://afteryield.onrender.com/vaults",
+					"protocol": "https",
+					"host": [
+						"afteryield",
+						"onrender",
+						"com"
+					],
+					"path": [
+						"vaults"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Single Agent",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://afteryield.onrender.com/agents/{{agentAddress}}",
+					"protocol": "https",
+					"host": [
+						"afteryield",
+						"onrender",
+						"com"
+					],
+					"path": [
+						"agents",
+						"{{agentAddress}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Agents",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://afteryield.onrender.com/agents",
+					"protocol": "https",
+					"host": [
+						"afteryield",
+						"onrender",
+						"com"
+					],
+					"path": [
+						"agents"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
+```
